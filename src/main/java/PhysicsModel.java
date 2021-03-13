@@ -19,7 +19,7 @@ public class PhysicsModel {
     final double gravityStrength;
 
     /**
-     * A constant to scale the effect of drag. In units of mass per unit volume, multiplied by the square of velocity.
+     * A constant to scale the effect of drag, akin to the density of air.
      */
     final double dragFactor;
 

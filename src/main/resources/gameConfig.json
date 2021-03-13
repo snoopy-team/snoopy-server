@@ -1,0 +1,6 @@
+{
+  "turnSpeed": 1,
+  "bulletRadius": 0.5,
+  "playerRadius": 1.0,
+  "bulletCooldown": 0.2
+}
