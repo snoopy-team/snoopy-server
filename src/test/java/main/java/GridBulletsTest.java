@@ -45,10 +45,10 @@ class GridBulletsTest {
     void perfTest() {
         ABody player = new Rect(5, 5, 10, 10);
         // this larger version takes ~13s on my machine
-        // int N_TRIALS = 100_000;
-        // int N_BULLETS = 300;
-        int N_TRIALS = 1;
-        int N_BULLETS = 1;
+        int N_TRIALS = 100_000;
+        int N_BULLETS = 300;
+        // int N_TRIALS = 1;
+        // int N_BULLETS = 1;
         Random rand = new Random(123);
         for (int t = 0; t < N_TRIALS; t++) {
             Bullets b1 = new GridBullets(20, 16, 100, 80);
@@ -66,8 +66,8 @@ class GridBulletsTest {
     void perfTestNaive() {
         ABody player = new Rect(5, 5, 10, 10);
         // this larger version takes ~28s on my machine
-        // int N_TRIALS = 100_000;
-        // int N_BULLETS = 300;
+        //int N_TRIALS = 100_000;
+        //int N_BULLETS = 300;
         int N_TRIALS = 1;
         int N_BULLETS = 1;
         Random rand = new Random(123);
