@@ -50,6 +50,10 @@ public class GamePosn {
                 this.y + vec.getY());
     }
 
+    public double distance(GamePosn other) {
+        return Math.hypot(this.x - other.x, this.y - other.y);
+    }
+
     public JsonElement toJson() {
         JsonArray json = new JsonArray();
         json.add(this.x);
