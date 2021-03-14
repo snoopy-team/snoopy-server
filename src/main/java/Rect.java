@@ -28,9 +28,7 @@ public class Rect extends ABody {
     }
 
     public Rect(double x, double y, double w, double h) {
-        this.lowerLeft = new GamePosn(x, y);
-        this.w = w;
-        this.h = h;
+        new Rect(new GamePosn(x, y), w, h);
     }
 
     @Override
@@ -66,5 +64,15 @@ public class Rect extends ABody {
                 this.lowerLeft.addVector(new GameVector(this.w, 0)),
                 this.lowerLeft.addVector(new GameVector(0, this.h)),
                 this.lowerLeft.addVector(new GameVector(this.w, this.h))).iterator();
+    }
+
+    @Override
+    public ABody moveBy(GameVector vec) {
+        return new Rect(this.lowerLeft.addVector(vec), this.w, this.h);
+    }
+
+    @Override
+    public GamePosn getCenter() {
+        return this.lowerLeft.addVector(new GameVector(this.w / 2, this.h / 2));
     }
 }

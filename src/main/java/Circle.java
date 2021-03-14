@@ -20,8 +20,7 @@ public class Circle extends ABody {
     }
 
     public Circle(double x, double y, double r) {
-        this.center = new GamePosn(x, y);
-        this.r = r;
+        new Circle(new GamePosn(x, y), r);
     }
 
     @Override
@@ -65,5 +64,15 @@ public class Circle extends ABody {
         // lower left offset from center
         GameVector offset = new GameVector(-1, -1).scale(this.r);
         return new Rect(this.center.addVector(offset), 2 * this.r, 2 * this.r);
+    }
+
+    @Override
+    public ABody moveBy(GameVector vec) {
+        return new Circle(this.center.addVector(vec), this.r);
+    }
+
+    @Override
+    public GamePosn getCenter() {
+        return this.center;
     }
 }

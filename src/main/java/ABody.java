@@ -22,4 +22,13 @@ public abstract class ABody {
      * @return the bounding box
      */
     public abstract Rect boundingBox();
+
+    /**
+     * Returns a shape of the same type moved with the given offset
+     * @param vec the offset to move by
+     * @return the moved shape
+     */
+    public abstract ABody moveBy(GameVector vec);
+
+    public abstract GamePosn getCenter();
 }

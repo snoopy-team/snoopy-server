@@ -65,6 +65,13 @@ public class Player {
      * @param model the physics model to use for the calculations
      */
     public void move(double dt, PhysicsModel model) {
+        GameVector thrust;
+        if (this.thrustersOn) {
+            thrust = model.computeThrust(this.orientation);
+        } else {
+            thrust = GameVector.origin();
+        }
+
         this.posn = posn.addVector(this.velocity.scale(dt));
         this.orientation = (this.orientation + dt * this.angularVelocity) % (Math.PI * 2);
 
@@ -72,13 +79,6 @@ public class Player {
 
         GameVector realAccel = this.accel.add(model.getGravity());
         this.velocity = this.velocity.add(realAccel.scale(dt));
-
-        GameVector thrust;
-        if (this.thrustersOn) {
-            thrust = model.computeThrust(this.orientation);
-        } else {
-            thrust = GameVector.origin();
-        }
 
         this.accel = this.accel.add(drag.scale(dt)).add(thrust.scale(dt));
 
