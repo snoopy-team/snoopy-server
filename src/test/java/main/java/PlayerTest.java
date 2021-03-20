@@ -13,7 +13,7 @@ class PlayerTest {
 
     @Test
     void toJson() {
-        Player player = new Player(new GamePosn(5, 5), 10);
+        Player player = new Player(new GamePosn(5, 5), 10, 1);
         player.velocity = new GameVector(0.1, -0.1);
         player.accel = new GameVector(10.0, 2.0);
 

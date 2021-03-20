@@ -20,6 +20,11 @@ public class GameConfig {
     final double bulletRadius;
 
     /**
+     * The bullet speed in game units per second.
+     */
+    final double bulletSpeed;
+
+    /**
      * The player radius in game units.
      */
     final double playerRadius;
@@ -29,11 +34,33 @@ public class GameConfig {
      */
     final double bulletCooldown;
 
-    public GameConfig(double turnSpeed, double bulletRadius, double playerRadius, double bulletCooldown) {
+    public GameConfig(double turnSpeed, double bulletRadius, double bulletSpeed, double playerRadius,
+                      double bulletCooldown) {
         this.turnSpeed = turnSpeed;
         this.bulletRadius = bulletRadius;
+        this.bulletSpeed = bulletSpeed;
         this.playerRadius = playerRadius;
         this.bulletCooldown = bulletCooldown;
+    }
+
+    public double getTurnSpeed() {
+        return turnSpeed;
+    }
+
+    public double getBulletRadius() {
+        return bulletRadius;
+    }
+
+    public double getPlayerRadius() {
+        return playerRadius;
+    }
+
+    public double getBulletCooldown() {
+        return bulletCooldown;
+    }
+
+    public double getBulletSpeed() {
+        return bulletSpeed;
     }
 
     /**

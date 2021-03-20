@@ -1,7 +1,7 @@
+package main.java;
+
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import main.java.ABody;
-import main.java.GameVector;
 
 /**
  * A bullet.
@@ -24,6 +24,14 @@ public class Bullet {
 
     public void move(double dt) {
         this.body = this.body.moveBy(this.velocity.scale(dt));
+    }
+
+    public ABody getBody() {
+        return body;
+    }
+
+    public boolean isInBounds(int width, int height) {
+        return this.body.collidesWith(new Rect(0, 0, width, height));
     }
 
     /**
