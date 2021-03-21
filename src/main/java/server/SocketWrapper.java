@@ -1,9 +1,14 @@
+package main.java.server;
+
 import java.io.InputStream;
 import java.io.OutputStream;
 
+/**
+ * A wrapper for Java sockets, used for testing purposes.
+ */
 public interface SocketWrapper {
 
-  /**
+    /**
    * Wrapper for getting the input stream for a Java Socket.
    *
    * @return input stream for a Java Socket.

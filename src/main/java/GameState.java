@@ -153,4 +153,11 @@ public class GameState { ;
 
         return json;
     }
+
+    /**
+     * Adds a player to this GameState..
+     */
+    public void addPlayer(Player player) {
+        this.players.add(player);
+    }
 }

@@ -1,8 +1,6 @@
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+package main.java.server;
+
+import java.io.*;
 
 /**
  * A mock of a socket wrapper that allows us to test our Java sockets.
@@ -44,8 +42,8 @@ public class ServerSocketWrapperSpy implements SocketWrapper {
     System.out.println("Called closed!");
   }
 
-  /**
-   * Gets the output that's been written to our byte array output stream.
+    /**
+     * Gets the output that's been written to our byte array output stream.
    *
    * @return our output.
    */
@@ -53,8 +51,8 @@ public class ServerSocketWrapperSpy implements SocketWrapper {
     return customOutputStream.toString();
   }
 
-  /**
-   * Checks to see if close has been called on this socket.
+    /**
+     * Checks to see if close has been called on this socket.
    *
    * @return whether or not the socket has been closed.
    */
