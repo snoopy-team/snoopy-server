@@ -4,6 +4,7 @@ import main.java.*;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -15,6 +16,7 @@ public class Game {
     private GameState gameState;
     private List<GamePlayer> players;
     private int newPlayerId;
+    private Action[] actions;
 
     // Constants; should probably change these to read from a file or something
     final static double THRUST_POWER = 0;
@@ -33,7 +35,7 @@ public class Game {
     private final int WIDTH = 500;
     private final int HEIGHT = 500;
 
-    public Game() {
+    public Game(int maxPlayers) {
         this.gameState =
                 new GameState(
                         new ArrayList<Player>(),
@@ -44,7 +46,15 @@ public class Game {
                         new MatchSetup(WIDTH, HEIGHT)
                 );
         this.players = new ArrayList<GamePlayer>();
+        this.actions = new Action[maxPlayers];
+        nullifyActions();
         this.newPlayerId = 0;
+    }
+
+    private void nullifyActions() {
+        for (int i = 0; i < actions.length; i++) {
+            actions[i] = null;
+        }
     }
 
     public GamePlayer addPLayer(SocketWrapper socket) {
@@ -88,10 +98,11 @@ public class Game {
 
         private void processRequests() {
             while (input.hasNextLine()) {
-                var request = input.nextLine(); // Either wait for the input from the user, or automatically generate an input that means "no input from the user." One of the two
+                var request = input.nextLine(); // Either wait for the input from the user, or automatically generate an input that basically means "no input from the user." One of the two
                 // Put the request into some kind of shared list of requests
                 // I probably need to implement some kind of lock over here
                 // If it happens that we've gotten the movements for all players, update the GameState
+                // Write the output back to the clients so they can see what's going on
                 // Release the lock
             }
         }
