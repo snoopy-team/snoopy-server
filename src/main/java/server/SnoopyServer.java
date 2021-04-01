@@ -15,11 +15,11 @@ public class SnoopyServer {
             System.out.println("Snoopy Server is Running...");
             var pool = Executors.newFixedThreadPool(NUM_PLAYERS);
 
-            Phaser barrier = new Phaser(1);
+            Phaser barrier = new Phaser(0);
             Game game = new Game(NUM_PLAYERS, barrier);
 
             while (true) {
-                pool.execute(game.addPLayer(new ServerSocketWrapper(listener.accept())));
+                pool.execute(game.addPlayer(new ServerSocketWrapper(listener.accept())));
             }
         }
     }

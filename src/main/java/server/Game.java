@@ -79,7 +79,7 @@ public class Game {
      * @param socket The socket that the new player is at.
      * @return The new GamePlayer.
      */
-    public GamePlayer addPLayer(SocketWrapper socket) {
+    public GamePlayer addPlayer(SocketWrapper socket) {
         int playerId = this.getNewPlayerId();
 
         Player newPlayer = new Player(STARTING_POSITION, STARTING_ORIENTATION, playerId);
@@ -139,6 +139,13 @@ public class Game {
         Scanner input;
         PrintWriter output;
 
+        /**
+         * Create a new GamePlayer assigned to a socket.
+         *
+         * @param socket The socket that the new GamePlayer is assigned to.
+         * @param player The new player itself.
+         * @param id The id of the new player.
+         */
         public GamePlayer(SocketWrapper socket, Player player, int id) {
             this.socket = socket;
             this.player = player;
@@ -182,7 +189,11 @@ public class Game {
 
                 for (int i = 0; i < keystrokes.length; i++)
                 {
-                    listOfActions.add(keyStrokeToAction(keystrokes[i]));
+                    Action action = keyStrokeToAction(keystrokes[i]);
+                    if (action != null)
+                    {
+                        listOfActions.add(action);
+                    }
                 }
 
                 actions[this.id] = new LoAction(listOfActions);

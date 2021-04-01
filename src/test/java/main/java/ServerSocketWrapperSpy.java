@@ -1,4 +1,6 @@
-package main.java.server;
+package main.java;
+
+import main.java.server.SocketWrapper;
 
 import java.io.*;
 
@@ -18,6 +20,12 @@ public class ServerSocketWrapperSpy implements SocketWrapper {
   public ServerSocketWrapperSpy(String customInput) {
     this.customInputStream = new ByteArrayInputStream(customInput.getBytes());
     this.customOutputStream = new ByteArrayOutputStream();
+    this.isClosed = false;
+  }
+
+  public ServerSocketWrapperSpy(InputStream customInput, OutputStream customOutput) {
+    this.customInputStream = customInput;
+    this.customOutputStream = customOutput;
     this.isClosed = false;
   }
 
