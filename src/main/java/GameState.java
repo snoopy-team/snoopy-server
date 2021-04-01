@@ -60,6 +60,7 @@ public class GameState { ;
         int playerInd = 0;
         for (Iterable<Action> actionList : actions) {
             Player currPlayer = this.players.get(playerInd);
+            playerInd++;
             currPlayer.takeActions(actionList, this, dt);
         }
 

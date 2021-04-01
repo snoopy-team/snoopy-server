@@ -1,4 +1,7 @@
-package main.java;
+package main.java.agents;
+
+import main.java.Action;
+import main.java.GameState;
 
 /**
  * Represents a mechanism for controlling a player.

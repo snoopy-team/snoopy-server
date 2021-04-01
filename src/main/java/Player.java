@@ -4,7 +4,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 /**
- * The agents in the game: rockets with physics associated with them.
+ * The game state idea of a controlled rocket that fires and thrusts. Can be controlled by a human or computer.
  */
 public class Player {
     /**
@@ -144,12 +144,16 @@ public class Player {
         switch (action) {
             case BankLeft:
                 this.bankLeft(state);
+                break;
             case BankRight:
                 this.bankRight(state);
+                break;
             case Thrust:
                 this.fireThrusters();
+                break;
             case Fire:
                 this.fire(state);
+                break;
         }
     }
 
