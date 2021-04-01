@@ -156,6 +156,7 @@ public class GameState { ;
 
     /**
      * Adds a player to this GameState..
+     * @param player the player to add to the GameState
      */
     public void addPlayer(Player player) {
         this.players.add(player);

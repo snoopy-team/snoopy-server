@@ -2,6 +2,7 @@ package main.java.server;
 
 import java.net.ServerSocket;
 import java.util.concurrent.Executors;
+import java.util.concurrent.Phaser;
 
 /**
  * A server for our snoopy dogfighting game, that can handle up to 200 players. Players connect at will, not necessarily just at the start of the game.
@@ -13,7 +14,10 @@ public class SnoopyServer {
         try (var listener = new ServerSocket(58901)) {
             System.out.println("Snoopy Server is Running...");
             var pool = Executors.newFixedThreadPool(NUM_PLAYERS);
-            Game game = new Game(NUM_PLAYERS);
+
+            Phaser barrier = new Phaser(1);
+            Game game = new Game(NUM_PLAYERS, barrier);
+
             while (true) {
                 pool.execute(game.addPLayer(new ServerSocketWrapper(listener.accept())));
             }
