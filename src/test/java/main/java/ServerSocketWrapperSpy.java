@@ -8,8 +8,8 @@ import java.io.*;
  * A mock of a socket wrapper that allows us to test our Java sockets.
  */
 public class ServerSocketWrapperSpy implements SocketWrapper {
-  private InputStream customInputStream;
-  private OutputStream customOutputStream;
+  private ByteArrayInputStream customInputStream;
+  private ByteArrayOutputStream customOutputStream;
   private boolean isClosed;
 
   /**
@@ -23,11 +23,11 @@ public class ServerSocketWrapperSpy implements SocketWrapper {
     this.isClosed = false;
   }
 
-  public ServerSocketWrapperSpy(InputStream customInput, OutputStream customOutput) {
-    this.customInputStream = customInput;
-    this.customOutputStream = customOutput;
-    this.isClosed = false;
-  }
+//  public ServerSocketWrapperSpy(InputStream customInput, OutputStream customOutput) {
+//    this.customInputStream = customInput;
+//    this.customOutputStream = customOutput;
+//    this.isClosed = false;
+//  }
 
   @Override
   public InputStream getInputStream() {

@@ -25,10 +25,10 @@ public class ServerSocketTest {
         Phaser barrier = new Phaser(0);
 //
         Game game = new Game(50, barrier);
-        pool.execute(game.addPlayer(spy));
-        sleep(10000);
+        game.addPlayer(spy).run();
 //        sleep(5000);
-        System.out.println(spy.getOutputStream());
+        System.out.println(spy.getOutput());
+
 //        pool.execute(game.new Player(spy, 'X'));
 //        sleep(1000);
 //        pool.execute(game.new Player(spy, 'O'));

@@ -131,7 +131,7 @@ public class Game {
      * A GamePlayer represents a single player in the game. This is created every time a new player connects, and will
      * close itself out when a player disconnects.
      */
-    private class GamePlayer implements Runnable{
+    public class GamePlayer implements Runnable{
         SocketWrapper socket;
         Player player;
         int id;
@@ -224,7 +224,7 @@ public class Game {
                 barrier.arriveAndAwaitAdvance();
 
                 // Write the output back to the clients so they can see what's going on
-                output.print(gameState.toJson());
+                output.println(gameState.toJson().toString());
             }
             barrier.arriveAndDeregister();
         }
