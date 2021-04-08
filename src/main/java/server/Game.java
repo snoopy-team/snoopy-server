@@ -171,7 +171,7 @@ public class Game {
         }
 
         private void setup() throws IOException {
-            input = new Scanner(socket.getInputStream(), "UTF-8");
+            input = new Scanner(socket.getInputStream()/*, "UTF-8"*/);
             output = new PrintWriter(socket.getOutputStream(), true);
 
             // Handshake
@@ -195,14 +195,18 @@ public class Game {
         }
 
         private void processRequests() {
-            barrier.register();
-            while (input.hasNextLine()) {
+            while (true) {
+                barrier.register();
                 String request = "";
                 TimeLimiter timeLimiter = SimpleTimeLimiter.create(Executors.newCachedThreadPool());
                 try {
-                    request = timeLimiter.callWithTimeout(input::nextLine, 10, TimeUnit.MILLISECONDS);
+                    if(!timeLimiter.callWithTimeout(input::hasNext, 10, TimeUnit.MILLISECONDS)) {
+                        break;
+                    }
+                    request = input.next();
+                    System.out.println(request);
                 } catch (TimeoutException | UncheckedTimeoutException e) {
-                    // timed out
+                    System.out.println("go to timeout");
                 } catch (Exception e) {
                     // something bad happened while reading the line
                 }
@@ -259,8 +263,9 @@ public class Game {
                 }
 
 //                output.println(gameState.toJson().toString());
+                barrier.arriveAndDeregister();
             }
-            barrier.arriveAndDeregister();
+
         }
 
         private Action keyStrokeToAction(String keystroke)
