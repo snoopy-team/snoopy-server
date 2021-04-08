@@ -8,11 +8,17 @@ import org.junit.jupiter.api.DisplayNameGenerator;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Array;
+import java.nio.ByteBuffer;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.*;
 import java.util.concurrent.*;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * A game of snoopy dogfight, which keeps track of the GameState and players.
@@ -165,8 +171,27 @@ public class Game {
         }
 
         private void setup() throws IOException {
-            input = new Scanner(socket.getInputStream());
+            input = new Scanner(socket.getInputStream(), "UTF-8");
             output = new PrintWriter(socket.getOutputStream(), true);
+
+            // Handshake
+//            try {
+//                String data = input.useDelimiter("\\r\\n\\r\\n").next();
+//                Matcher get = Pattern.compile("^GET").matcher(data);
+//                if (get.find()) {
+//                    Matcher match = Pattern.compile("Sec-WebSocket-Key: (.*)").matcher(data);
+//                    match.find();
+//                    byte[] response = ("HTTP/1.1 101 Switching Protocols\r\n"
+//                            + "Connection: Upgrade\r\n"
+//                            + "Upgrade: websocket\r\n"
+//                            + "Sec-WebSocket-Accept: "
+//                            + Base64.getEncoder().encodeToString(MessageDigest.getInstance("SHA-1").digest((match.group(1) + "258EAFA5-E914-47DA-95CA-C5AB0DC85B11").getBytes("UTF-8")))
+//                            + "\r\n\r\n").getBytes("UTF-8");
+//                    socket.getOutputStream().write(response, 0, response.length);
+//                }
+//            } catch (NoSuchAlgorithmException e) {
+//                e.printStackTrace();
+//            }
         }
 
         private void processRequests() {
@@ -224,7 +249,16 @@ public class Game {
                 barrier.arriveAndAwaitAdvance();
 
                 // Write the output back to the clients so they can see what's going on
-                output.println(gameState.toJson().toString());
+                try {
+                    byte[] response = (gameState.toJson().toString()).getBytes("UTF-8");
+                    socket.getOutputStream().write(response, 0, response.length);
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+//                output.println(gameState.toJson().toString());
             }
             barrier.arriveAndDeregister();
         }

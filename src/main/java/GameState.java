@@ -65,7 +65,7 @@ public class GameState { ;
         }
 
         this.moveBullets(dt);
-        this.collideBullets();
+//        this.collideBullets();
         this.t += dt;
     }
 
