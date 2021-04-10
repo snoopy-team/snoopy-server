@@ -7,7 +7,7 @@ public class Constants {
   // Constants; should probably change these to read from a file or something
   public final static double THRUST_POWER = 0.5;
   public final static double GRAVITY_STRENGTH = 1.0;
-  public final static double DRAG_FACTOR = 0.1;
+  public final static double DRAG_FACTOR = 0.25;
 
   public final static double TURN_SPEED = 0.1;
   public final static double BULLET_RADIUS = 5;

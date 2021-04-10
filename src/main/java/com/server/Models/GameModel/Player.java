@@ -87,10 +87,9 @@ public class Player {
         this.posn = posn.addVector(this.velocity.scale(dt));
         this.orientation = (this.orientation + dt * this.angularVelocity) % (Math.PI * 2);
 
-        this.accel = this.accel.add(thrust.scale(dt));
         GameVector drag = model.computeDrag(this.velocity);
 
-        GameVector realAccel = this.accel.add(model.getGravity()).add(drag);
+        GameVector realAccel = this.accel.add(model.getGravity()).add(drag).add(thrust);
         this.velocity = this.velocity.add(realAccel.scale(dt));
 
 
