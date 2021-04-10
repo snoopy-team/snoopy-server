@@ -6,7 +6,7 @@ canvas.height = window.innerHeight;
 // This is what we'll be drawing to the canvas with
 export var ctx = canvas.getContext('2d');
 export var constants = {
-    FPS: 30,
+    FPS: 45,
     // Most likely this will change to something a bit more fun (like a blue sky with clouds)
     BACKGROUND_COLOR: 'white',
     // Whether or not debugger info should be displayed
