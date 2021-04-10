@@ -25,16 +25,6 @@
 
   <script src="/webjars/sockjs-client/sockjs.min.js"></script>
   <script src="/webjars/stomp-websocket/stomp.min.js"></script>
-  <script>
-    var socket = new SockJS('/gs-guide-websocket');
-    stompClient = Stomp.over(socket);
-    stompClient.connect({}, function (frame) {
-        console.log('Connected: ' + frame);
-        stompClient.subscribe('/topic/greetings', function (greeting) {
-            console.log(JSON.parse(greeting.body).content);
-        });
-    });
-  </script>
   <script type="module" src="../build/index.js"></script>
 </body>
 </html> 
