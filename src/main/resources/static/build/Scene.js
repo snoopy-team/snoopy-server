@@ -38,7 +38,7 @@ var Camera = /** @class */ (function () {
         if (scale === void 0) { scale = 1; }
         this.FOLLOW_DISTANCE = 50;
         // Percentage of gap between curr position & dest position to close each update. See this.update
-        this.lerpFactor = 0.1;
+        this.lerpFactor = 1;
         /**
          * Updates the position to center on.
          * @param positionToCenter A function that returns a position where this Camera should center on.
@@ -148,7 +148,7 @@ var Camera = /** @class */ (function () {
             else {
                 newPos.y = destPos.y - Math.sign(diff.y) * this.FOLLOW_DISTANCE;
             }
-            this.pathPosition = newPos;
+            this.pathPosition = destPos;
         }
         if (this.isShaking) {
             this.shake(deltaTime);
