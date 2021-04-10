@@ -8,7 +8,9 @@ import com.server.Models.GameModel.JSON.BulletJSON;
 import com.server.Models.GameModel.JSON.GameStateJSON;
 import com.server.Models.GameModel.JSON.PlayerJSON;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -17,7 +19,7 @@ import java.util.stream.Collectors;
 public class GameState { ;
     List<Player> players;
 
-    List<? extends List<Bullet>> playerBullets;
+    Map<Integer, ? extends List<Bullet>> playerBullets;
 
     double t;
 
@@ -29,7 +31,8 @@ public class GameState { ;
 
     boolean isOver;
 
-    public GameState(List<Player> players, List<? extends List<Bullet>> playerBullets, double t,
+    public GameState(List<Player> players, Map<Integer, ? extends List<Bullet>> playerBullets,
+                     double t,
                      GameConfig config, PhysicsModel physics, MatchSetup match) {
         this.players = players;
         this.playerBullets = playerBullets;
@@ -85,8 +88,9 @@ public class GameState { ;
     private void moveBullets(double dt) {
         int w = this.match.getWidth();
         int h = this.match.getHeight();
-        this.playerBullets.forEach(bullets -> bullets.forEach(bullet -> bullet.move(dt)));
-        this.playerBullets.forEach(bullets -> bullets.removeIf(bullet -> !bullet.isInBounds(w, h)));
+        this.playerBullets.values().forEach(bullets -> bullets.forEach(bullet -> bullet.move(dt)));
+        this.playerBullets.values().forEach(bullets -> bullets.removeIf(bullet -> !bullet.isInBounds(w,
+                h)));
     }
 
     /**
@@ -132,7 +136,8 @@ public class GameState { ;
 
     public Bullet makeBullet(GamePosn posn, double orientation) {
         ABody body = new Circle(posn, this.getConfig().getBulletRadius());
-        return new Bullet(body, GameVector.fromPolar(this.getConfig().getBulletSpeed(), orientation));
+        return new Bullet(body, GameVector.fromPolar(this.getConfig().getBulletSpeed(),
+                orientation));
     }
 
     public GameStateJSON toJson() {
@@ -144,21 +149,25 @@ public class GameState { ;
             status = "ongoing";
         }
 
-        PlayerJSON[] players = new PlayerJSON[this.players.size()];
-        for (int i = 0; i < this.players.size(); i++) {
-            players[i] = this.players.get(i).toJson();
+        Map<Integer, PlayerJSON> players = new HashMap<>();
+        for (Player player : this.players) {
+            players.put(player.getId(), player.toJson());
         }
 
-        BulletJSON[][] bulletList = new BulletJSON[this.playerBullets.size()][0];
-        for (int i = 0; i < this.playerBullets.size(); i++) {
-            BulletJSON[] bullets = new BulletJSON[this.playerBullets.get(i).size()];
-            for (int b = 0; b < this.playerBullets.get(i).size(); b++) {
-                bullets[b] = this.playerBullets.get(i).get(b).toJson();
+        Map<Integer, BulletJSON[]> bullets = new HashMap<>();
+
+        for (Integer playerId : this.playerBullets.keySet())
+        {
+            List<Bullet> bulletList = this.playerBullets.get(playerId);
+            BulletJSON[] bulletJSONS = new BulletJSON[bulletList.size()];
+            for (int i = 0; i < bulletList.size(); i++)
+            {
+                bulletJSONS[i] = bulletList.get(i).toJson();
             }
-            bulletList[i] = bullets;
+            bullets.put(playerId, bulletJSONS);
         }
 
-        return new GameStateJSON(status, this.t, players, bulletList);
+        return new GameStateJSON(status, this.t, players, bullets);
     }
 
     /**

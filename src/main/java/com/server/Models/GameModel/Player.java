@@ -176,4 +176,12 @@ public class Player {
         this.angularVelocity = 0;
         this.stopThrusters();
     }
+
+    /**
+     * Returns the player id.
+     * @return player id.
+     */
+    public int getId() {
+        return this.id;
+    }
 }
