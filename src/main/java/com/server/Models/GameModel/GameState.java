@@ -73,6 +73,12 @@ public class GameState { ;
         this.t += dt;
     }
 
+    public void stepMany(Iterable<? extends Iterable<Action>> actions, double dt, int numSteps) {
+        for (int i = 0; i < numSteps; i++) {
+            this.step(actions, dt / numSteps);
+        }
+    }
+
     /**
      * Moves each bullet forward the specified amount of time, removing bullets that no longer exist.
      */
@@ -130,7 +136,7 @@ public class GameState { ;
     }
 
     public GameStateJSON toJson() {
-        String status = "";
+        String status;
 
         if (this.isOver()) {
             status = "over";

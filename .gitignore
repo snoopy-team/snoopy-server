@@ -35,3 +35,6 @@ gradle-app.setting
 
 # Cache of project
 .gradletasknamecache
+
+src/main/java/com/resources/static
+.idea
