@@ -298,7 +298,7 @@ var LiveServer = /** @class */ (function () {
                     _this.broadcastUpdate(new RawServerUpdateWrapper(JSON.parse(greeting.body)));
                 });
                 // Keep track of which keys are down at any point in time
-                document.addEventListener('keypress', function (e) {
+                document.addEventListener('keydown', function (e) {
                     if (!_this.keysDown.includes(e.key)) {
                         _this.keysDown.push(e.key.toLowerCase());
                     }
