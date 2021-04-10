@@ -21,7 +21,11 @@ public class ActionsPacket {
 
     for (int i = 0; i < this.actions.length; i++)
     {
-      actions.add(keyStrokeToAction(this.actions[i]));
+      Action action = keyStrokeToAction(this.actions[i]);
+      if (action != null)
+      {
+        actions.add(action);
+      }
     }
 
     return actions;
