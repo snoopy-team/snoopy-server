@@ -29,7 +29,7 @@ public class Game {
     players.add(player);
 
     var bulletLists = new ArrayList<ArrayList<Bullet>>();
-    bulletLists.add(new ArrayList<Bullet>());
+    bulletLists.add(new ArrayList<>());
 
     this.gameState =
         new GameState(
@@ -44,10 +44,10 @@ public class Game {
   }
 
   public GameStateJSON step(List<Action> actions) {
-    List<List<Action>> actionList = new ArrayList<List<Action>>();
+    List<List<Action>> actionList = new ArrayList<>();
     actionList.add(actions);
     // Add the AI actions here too
-    this.gameState.step(actionList, 1);
+    this.gameState.stepMany(actionList, 1, 1);
 
     return this.gameState.toJson();
   }
