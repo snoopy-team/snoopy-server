@@ -9,7 +9,7 @@ public class Constants {
   public final static double GRAVITY_STRENGTH = 1.0;
   public final static double DRAG_FACTOR = 0.1;
 
-  public final static double TURN_SPEED = 2;
+  public final static double TURN_SPEED = 0.1;
   public final static double BULLET_RADIUS = 5;
   public final static double BULLET_SPEED = 10;
   public final static double PLAYER_RADIUS = 15;

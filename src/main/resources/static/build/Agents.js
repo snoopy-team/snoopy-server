@@ -24,7 +24,7 @@ var Agent = /** @class */ (function () {
                 x: location.x - width / 2,
                 y: location.y - height / 2
             };
-            _this.rotateThenDraw(centeredPos, _this.orientation, centeredPos, function (pos) { return _this.drawSpriteImage(pos, size); });
+            _this.rotateThenDraw(location, _this.orientation, centeredPos, function (pos) { return _this.drawSpriteImage(pos, size); });
         };
         /**
          * Returns the world position of this Agent (as opposed to screen coordinates)
