@@ -26,9 +26,9 @@ public class Constants {
   public final static int HEIGHT = 500;
 
   // Constants mapping keys to actions
-  public final static String BANK_LEFT = "ArrowLeft";
-  public final static String BANK_RIGHT = "ArrowRight";
-  public final static String THRUST = "ArrowUp";
+  public final static String BANK_LEFT = "arrowleft";
+  public final static String BANK_RIGHT = "arrowright";
+  public final static String THRUST = "arrowup";
   public final static String FIRE = " ";
 
 }
