@@ -8,6 +8,7 @@ import com.server.Models.GameModel.JSON.GameStateJSON;
 import com.server.Models.GameModel.Player;
 import com.server.Models.ActionsPacket;
 
+import org.apache.tomcat.util.bcel.Const;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
@@ -19,7 +20,7 @@ import java.util.ArrayList;
 public class GameController {
   static Game game = null;
   private static ArrayList<Player> players = new ArrayList<Player>();
-  private static int ids = 0;
+  private static int ids = Constants.AI_INDEX + 1;
 
   @MessageMapping("/hello")
   @SendTo("/topic/greetings")

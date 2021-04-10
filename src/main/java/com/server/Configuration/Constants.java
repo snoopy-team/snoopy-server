@@ -16,8 +16,11 @@ public class Constants {
   public final static double BULLET_COOLDOWN = 20;
 
   public final static GamePosn STARTING_POSITION = new GamePosn(0, 0); // Potentially we wanna
-  // randomize this
   public final static double STARTING_ORIENTATION = 0;
+
+  public final static GamePosn AI_STARTING_POSITION = new GamePosn(0, 0); // Potentially we wanna
+  public final static double AI_STARTING_ORIENTATION = 0;
+  public final static int AI_INDEX = 0;
 
   public final static int WIDTH = 500;
   public final static int HEIGHT = 500;

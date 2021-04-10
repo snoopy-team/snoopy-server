@@ -38,45 +38,45 @@ class GridBulletsTest {
 //        assertFalse(b1.hasCollision(player));
 //    }
 
-    @Test
-    void perfTest() {
-        ABody player = new Rect(5, 5, 10, 10);
-        // this larger version takes ~13s on my machine
-        //int N_TRIALS = 100_000;
-        //int N_BULLETS = 300;
-        int N_TRIALS = 1;
-        int N_BULLETS = 1;
-        Random rand = new Random(123);
-        for (int t = 0; t < N_TRIALS; t++) {
-            Bullets b1 = new GridBullets(20, 16, 100, 80);
-            for (int i = 0; i < N_BULLETS; i++) {
-                int cx = rand.nextInt(101);
-                int cy = rand.nextInt(80);
-                double r = rand.nextDouble() * 2;
-                b1.add(new Circle(cx, cy, r));
-                b1.computeCollision(player);
-            }
-        }
-    }
-
-    @Test
-    void perfTestNaive() {
-        ABody player = new Rect(5, 5, 10, 10);
-        // this larger version takes ~28s on my machine
-        //int N_TRIALS = 100_000;
-        //int N_BULLETS = 300;
-        int N_TRIALS = 1;
-        int N_BULLETS = 1;
-        Random rand = new Random(123);
-        for (int t = 0; t < N_TRIALS; t++) {
-            Bullets b1 = new NaiveBullets();
-            for (int i = 0; i < N_BULLETS; i++) {
-                int cx = rand.nextInt(101);
-                int cy = rand.nextInt(80);
-                double r = rand.nextDouble() * 2;
-                b1.add(new Circle(cx, cy, r));
-                b1.computeCollision(player);
-            }
-        }
-    }
+//    @Test
+//    void perfTest() {
+//        ABody player = new Rect(5, 5, 10, 10);
+//        // this larger version takes ~13s on my machine
+//        //int N_TRIALS = 100_000;
+//        //int N_BULLETS = 300;
+//        int N_TRIALS = 1;
+//        int N_BULLETS = 1;
+//        Random rand = new Random(123);
+//        for (int t = 0; t < N_TRIALS; t++) {
+//            Bullets b1 = new GridBullets(20, 16, 100, 80);
+//            for (int i = 0; i < N_BULLETS; i++) {
+//                int cx = rand.nextInt(101);
+//                int cy = rand.nextInt(80);
+//                double r = rand.nextDouble() * 2;
+//                b1.add(new Circle(cx, cy, r));
+//                b1.computeCollision(player);
+//            }
+//        }
+//    }
+//
+//    @Test
+//    void perfTestNaive() {
+//        ABody player = new Rect(5, 5, 10, 10);
+//        // this larger version takes ~28s on my machine
+//        //int N_TRIALS = 100_000;
+//        //int N_BULLETS = 300;
+//        int N_TRIALS = 1;
+//        int N_BULLETS = 1;
+//        Random rand = new Random(123);
+//        for (int t = 0; t < N_TRIALS; t++) {
+//            Bullets b1 = new NaiveBullets();
+//            for (int i = 0; i < N_BULLETS; i++) {
+//                int cx = rand.nextInt(101);
+//                int cy = rand.nextInt(80);
+//                double r = rand.nextDouble() * 2;
+//                b1.add(new Circle(cx, cy, r));
+//                b1.computeCollision(player);
+//            }
+//        }
+//    }
 }
