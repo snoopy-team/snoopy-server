@@ -33,13 +33,13 @@ public class Game {
     this.snoopy = new Snoopy();
 
     var players = new ArrayList<Player>();
-    players.add(new Player(Constants.AI_STARTING_POSITION, Constants.AI_STARTING_ORIENTATION,
-            Constants.AI_INDEX));
+//    players.add(new Player(Constants.AI_STARTING_POSITION, Constants.AI_STARTING_ORIENTATION,
+//            Constants.AI_INDEX));
     players.add(player);
 
     var bulletLists = new ArrayList<ArrayList<Bullet>>();
     bulletLists.add(new ArrayList<Bullet>());
-    bulletLists.add(new ArrayList<Bullet>());
+//    bulletLists.add(new ArrayList<Bullet>());
 
     this.gameState =
         new GameState(
