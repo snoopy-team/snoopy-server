@@ -5,6 +5,8 @@ canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 // This is what we'll be drawing to the canvas with
 export var ctx = canvas.getContext('2d');
+// flip y-axis
+ctx.transform(1, 0, 0, -1, 0, canvas.height);
 export var constants = {
     FPS: 30,
     // Most likely this will change to something a bit more fun (like a blue sky with clouds)
