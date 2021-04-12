@@ -6,8 +6,8 @@ var RawServerUpdateWrapper = /** @class */ (function () {
         console.log('raw:', rawServerUpdate);
         // Translate all arrays of size 2, which represent vectors, to `Vec2`s
         // Convert players data
-        for (var _i = 0, _a = rawServerUpdate['players']; _i < _a.length; _i++) {
-            var player = _a[_i];
+        for (var playerID in rawServerUpdate['players']) {
+            var player = rawServerUpdate['players'][playerID];
             var acceleration = player['acceleration'];
             player['acceleration'] = { x: acceleration[0], y: acceleration[1] };
             var position = player['position'];
@@ -16,17 +16,18 @@ var RawServerUpdateWrapper = /** @class */ (function () {
             player['velocity'] = { x: velocity[0], y: velocity[1] };
         }
         // Convert bullets data
-        for (var _b = 0, _c = rawServerUpdate['bullets'][0]; _b < _c.length; _b++) { // FIXME
-            var bullet = _c[_b];
-            console.log('should not be reaching this line');
-            var position = bullet['position'];
-            bullet['position'] = { x: position[0], y: position[1] };
-            var velocity = bullet['velocity'];
-            bullet['velocity'] = { x: velocity[0], y: velocity[1] };
+        for (var bulletID in rawServerUpdate['bullets']) {
+            for (var _i = 0, _a = rawServerUpdate['bullets'][bulletID]; _i < _a.length; _i++) {
+                var bullet = _a[_i];
+                var position = bullet['position'];
+                bullet['position'] = { x: position[0], y: position[1] };
+                var velocity = bullet['velocity'];
+                bullet['velocity'] = { x: velocity[0], y: velocity[1] };
+            }
         }
         // Set properties of this ServerUpdate
         this.players = rawServerUpdate['players'];
-        this.bullets = []; // rawServerUpdate['bullets'];
+        this.bullets = rawServerUpdate['bullets'];
     }
     return RawServerUpdateWrapper;
 }());
@@ -71,8 +72,8 @@ var ServerUpdateManager = /** @class */ (function () {
         this.serverUpdateProvider = serverUpdateProvider;
         this.hasUpdateFlag = false;
         this.mostRecentUpdate = {
-            players: [],
-            bullets: []
+            players: {},
+            bullets: {}
         };
     }
     return ServerUpdateManager;
@@ -108,41 +109,40 @@ var ServerMock = /** @class */ (function () {
         this.oneSecIntervalUpdates = function () {
             var mockData = [
                 {
-                    players: [{
-                            id: 'example player id',
+                    players: {
+                        'example player id': {
                             position: { x: 0, y: 0 },
                             velocity: { x: 200, y: 200 },
                             acceleration: { x: 0, y: -50 },
                             orientation: 0,
                             cooldown: 0,
-                        }],
-                    bullets: []
+                        },
+                    },
+                    bullets: {}
                 },
                 {
-                    players: [{
-                            id: 'example player id',
+                    players: {
+                        'example player id': {
                             position: { x: 100, y: 100 },
                             velocity: { x: 5, y: 5 },
                             acceleration: { x: 0, y: 0 },
                             orientation: Math.PI,
                             cooldown: 0,
-                        }],
-                    bullets: []
+                        }
+                    },
+                    bullets: {}
                 },
                 {
-                    players: [{
-                            id: 'example player id',
+                    players: {
+                        'example player id': {
                             position: { x: 100, y: 50 },
                             velocity: { x: 0, y: 0 },
                             acceleration: { x: 0, y: 0 },
                             orientation: 2 * Math.PI,
                             cooldown: 0,
-                        }],
-                    bullets: [{
-                            id: 'example bullet id',
-                            position: { x: 50, y: 50 },
-                            velocity: { x: 30, y: 5 }
-                        }]
+                        }
+                    },
+                    bullets: {}
                 },
             ];
             var i = 0;
@@ -156,32 +156,70 @@ var ServerMock = /** @class */ (function () {
         this.oneSecondSineMotion = function () {
             var flag = true;
             var sineMotion = function (toggleFlag) {
-                if (toggleFlag) {
-                    return {
-                        players: [{
-                                id: 'example player id',
+                // if (toggleFlag) {
+                return {
+                    players: {
+                        'example player id': {
+                            position: { x: 0, y: 0 },
+                            velocity: { x: 300, y: 300 },
+                            acceleration: { x: 0, y: 0 },
+                            orientation: 0,
+                            cooldown: 0,
+                        },
+                        'example player id 2': {
+                            position: { x: 0, y: 300 },
+                            velocity: { x: 300, y: -300 },
+                            acceleration: { x: 0, y: 0 },
+                            orientation: 0,
+                            cooldown: 0,
+                        }
+                    },
+                    bullets: {
+                        'example player id': [
+                            {
+                                position: { x: 0, y: 50 },
+                                velocity: { x: 50, y: 0 },
+                            },
+                            // {
+                            //   position: { x: 50, y: 0 },
+                            //   velocity: { x: 0, y: 50 },
+                            // },
+                        ],
+                        'example player id 2': [
+                            {
                                 position: { x: 0, y: 0 },
-                                velocity: { x: 300, y: 300 },
-                                acceleration: { x: 0, y: 0 },
-                                orientation: 0,
-                                cooldown: 0,
-                            }],
-                        bullets: []
-                    };
-                }
-                else {
-                    return {
-                        players: [{
-                                id: 'example player id',
-                                position: { x: 300, y: 300 },
-                                velocity: { x: -300, y: -300 },
-                                acceleration: { x: 0, y: 0 },
-                                orientation: 0,
-                                cooldown: 0,
-                            }],
-                        bullets: []
-                    };
-                }
+                                velocity: { x: 50, y: 100 },
+                            },
+                            // {
+                            //   position: { x: 50, y: 50 },
+                            //   velocity: { x: 0, y: -50 },
+                            // },
+                        ],
+                    }
+                };
+                // } else {
+                //   return {
+                //     players: [
+                //       {
+                //         id: 'example player id',
+                //         position: { x: 300, y: 300 },
+                //         velocity: { x: -300, y: -300 },
+                //         acceleration: { x: 0, y: 0 },
+                //         orientation: 0,
+                //         cooldown: 0,
+                //       },
+                //       {
+                //         id: 'example player id 2',
+                //         position: { x: 300, y: 0 },
+                //         velocity: { x: -300, y: 300 },
+                //         acceleration: { x: 0, y: 0 },
+                //         orientation: 0,
+                //         cooldown: 0,
+                //       }
+                //     ],
+                //     bullets: []
+                //   }
+                // }
             };
             setInterval(function () {
                 _this.broadcastUpdate(sineMotion(flag));
@@ -299,7 +337,7 @@ var LiveServer = /** @class */ (function () {
                 });
                 // Keep track of which keys are down at any point in time
                 document.addEventListener('keydown', function (e) {
-                    if (!_this.keysDown.includes(e.key)) {
+                    if (!_this.keysDown.includes(e.key.toLowerCase())) {
                         _this.keysDown.push(e.key.toLowerCase());
                     }
                 });

@@ -38,57 +38,60 @@ var GameWorld = /** @class */ (function () {
                 if (_this.serverUpdateManager.hasUpdate()) {
                     // Get most recent update
                     var serverUpdate = _this.serverUpdateManager.getUpdate();
-                    var _loop_1 = function (state) {
+                    var _loop_1 = function (playerID) {
                         // Check if player is new
-                        var playerIsNew = !_this.players.hasOwnProperty(state.id);
+                        var playerIsNew = !_this.players.hasOwnProperty(playerID);
                         if (playerIsNew) {
-                            var agent_1 = new Agent(state, function (pos, size) {
+                            var agent_1 = new Agent(serverUpdate.players[playerID], function (pos, size) {
                                 // TODO: figure out how to determine which player to draw (Snoopy vs Red Barron)
                                 ctx.drawImage(imageSnoopy, pos.x, pos.y, size.x, size.y);
                             }, { x: 100, y: 150 } // Will need to change this for drawing Red Barron sprite
                             );
-                            _this.players[state.id] = agent_1;
-                            _this.scene.push(agent_1);
+                            _this.players[playerID] = agent_1;
                             _this.camera.centerOn(agent_1.getPosition);
                             if (constants.DEBUG_MODE) {
                                 ctx.font = "15px Arial";
-                                _this.camera.addToDebugMenu(function () { return "Player ID: \"" + state.id + "\", Position: (" + Math.round(agent_1.getPosition().x) + ", " + Math.round(agent_1.getPosition().y) + ")"; });
-                                _this.camera.addToDebugMenu(function () { return "Press \"s\" to simulate camera shake."; });
+                                _this.camera.addToDebugMenu(function () { return "Player ID: \"" + playerID + "\", Position: (" + Math.round(agent_1.getPosition().x) + ", " + Math.round(agent_1.getPosition().y) + ")"; });
+                                _this.camera.addToDebugMenu(function () { return "Press \"s\" to simulate camera shake."; }); // TODO move this
                             }
                         }
-                        _this.players[state.id].getServerUpdate(state);
+                        _this.players[playerID].getServerUpdate(serverUpdate.players[playerID]);
                     };
                     // Update players
-                    for (var _i = 0, _a = serverUpdate.players; _i < _a.length; _i++) {
-                        var state = _a[_i];
-                        _loop_1(state);
+                    for (var playerID in serverUpdate.players) {
+                        _loop_1(playerID);
                     }
                     // Update bullets
-                    for (var _b = 0, _c = serverUpdate.bullets; _b < _c.length; _b++) {
-                        var state = _c[_b];
+                    for (var bulletID in serverUpdate.bullets) {
+                        var playerBullets = serverUpdate.bullets[bulletID];
                         // Check if bullet is new
-                        var bulletIsNew = !_this.bullets.hasOwnProperty(state.id);
-                        if (bulletIsNew) {
-                            var bullet = new Bullet(state.position, state.velocity);
-                            _this.bullets[state.id] = bullet;
-                            _this.scene.push(bullet);
+                        var bulletIsNew = !_this.bullets.hasOwnProperty(bulletID);
+                        if (bulletIsNew)
+                            _this.bullets[bulletID] = [];
+                        // Remove existing bullets from the scene
+                        _this.bullets[bulletID] = [];
+                        for (var _i = 0, playerBullets_1 = playerBullets; _i < playerBullets_1.length; _i++) {
+                            var bullet = playerBullets_1[_i];
+                            var bulletObj = new Bullet(bullet.position, bullet.velocity);
+                            _this.bullets[bulletID].push(bulletObj);
                         }
-                        _this.bullets[state.id].getServerUpdate(state);
                     }
                 }
                 // Update players
-                for (var _d = 0, _e = Object.keys(_this.players); _d < _e.length; _d++) {
-                    var playerID = _e[_d];
+                for (var _a = 0, _b = Object.keys(_this.players); _a < _b.length; _a++) {
+                    var playerID = _b[_a];
                     var secPerFrame = millisPerFrame / 1000;
                     var player = _this.players[playerID];
                     player.update(_this.millisPassedSinceLastFrame / 1000);
                 }
                 // Update bullets
-                for (var _f = 0, _g = Object.keys(_this.bullets); _f < _g.length; _f++) {
-                    var bulletID = _g[_f];
+                for (var _c = 0, _d = Object.keys(_this.bullets); _c < _d.length; _c++) {
+                    var bulletID = _d[_c];
                     var secPerFrame = millisPerFrame / 1000;
-                    var bullet = _this.bullets[bulletID];
-                    bullet.update(_this.millisPassedSinceLastFrame / 1000);
+                    for (var _e = 0, _f = _this.bullets[bulletID]; _e < _f.length; _e++) {
+                        var bullet = _f[_e];
+                        bullet.update(_this.millisPassedSinceLastFrame / 1000);
+                    }
                 }
                 // Draw all game objects
                 _this.camera.update(_this.millisPassedSinceLastFrame / 1000);
@@ -102,23 +105,21 @@ var GameWorld = /** @class */ (function () {
             _this.before = now;
             requestAnimationFrame(_this.gameLoop);
         };
-        /**
-         * Registers a new player given an Agent to represent the player and an ID for the player
-         * @param player a new player in the game. Can be any type of player (i.e. AI, manual, etc.)
-         * @param id the id that we will associate the player with when we receive updates from the server
-         */
-        this.addPlayer = function (player, id) {
-            _this.players[id] = player;
-            _this.scene.push(player);
-        };
-        /**
-         * Registers a new bullet, given an Agent and and a string ID to associate this new player with.
-         * @param bullet the bullet object
-         * @param id an ID to associate the bullet with
-         */
-        this.addBullet = function (bullet, id) {
-            _this.bullets[id] = bullet;
-            _this.scene.push(bullet);
+        // TODO
+        this.getScene = function () {
+            var scene = [];
+            for (var _i = 0, _a = Object.values(_this.players); _i < _a.length; _i++) {
+                var player = _a[_i];
+                scene.push(player);
+            }
+            for (var _b = 0, _c = Object.values(_this.bullets); _b < _c.length; _b++) {
+                var bulletGroup = _c[_b];
+                for (var _d = 0, bulletGroup_1 = bulletGroup; _d < bulletGroup_1.length; _d++) {
+                    var bullet = bulletGroup_1[_d];
+                    scene.push(bullet);
+                }
+            }
+            return scene;
         };
         this.players = {};
         this.bullets = {};
@@ -128,8 +129,8 @@ var GameWorld = /** @class */ (function () {
         this.millisPassedSinceLastFrame = 0;
         this.scene = [];
         this.camera = constants.DEBUG_MODE
-            ? new DebugCamera(this.scene, new GridBackground())
-            : new Camera(function () { return origin; }, this.scene, new GridBackground());
+            ? new DebugCamera(this.getScene, new GridBackground())
+            : new Camera(function () { return origin; }, this.getScene, new GridBackground());
     }
     return GameWorld;
 }());
