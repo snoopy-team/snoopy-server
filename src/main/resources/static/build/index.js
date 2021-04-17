@@ -8,7 +8,7 @@ export var ctx = canvas.getContext('2d');
 // flip y-axis
 ctx.transform(1, 0, 0, -1, 0, canvas.height);
 export var constants = {
-    FPS: 45,
+    FPS: 30,
     // Most likely this will change to something a bit more fun (like a blue sky with clouds)
     BACKGROUND_COLOR: 'white',
     // Whether or not debugger info should be displayed
