@@ -1,7 +1,5 @@
 package com.server.Models.GameModel;
 
-import com.google.gson.Gson;
-
 import java.io.Reader;
 
 /**
@@ -34,17 +32,6 @@ public class PhysicsModel {
         this.thrustPower = thrustPower;
         this.gravityStrength = gravityStrength;
         this.dragFactor = dragFactor;
-    }
-
-    /**
-     * Reads in config values from the JSON file.
-     * @param input the input reader
-     * @return a PhysicsModel initialized from the values
-     * @throws IllegalArgumentException if the JSON given is bad or missing values
-     */
-    public static PhysicsModel fromJson(Reader input) throws IllegalArgumentException {
-        Gson gson = new Gson();
-        return gson.fromJson(input, PhysicsModel.class);
     }
 
     public GameVector getGravity() {

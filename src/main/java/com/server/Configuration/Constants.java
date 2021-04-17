@@ -4,6 +4,10 @@ import com.server.Models.GameModel.GamePosn;
 
 public class Constants {
 
+  //  public final static double THRUST_POWER = 1;
+  //  public final static double GRAVITY_STRENGTH = 0.25;
+  //  public final static double DRAG_FACTOR = 0.001;
+
   // Constants; should probably change these to read from a file or something
   // "tight" controls
   private final static double TERMINAL_VELOCITY = 5.0;
@@ -18,9 +22,9 @@ public class Constants {
 
   public final static double TURN_SPEED = 4.0;
   public final static double BULLET_RADIUS = 5;
-  public final static double BULLET_SPEED = 1;
+  public final static double BULLET_SPEED = 1000;
   public final static double PLAYER_RADIUS = 15;
-  public final static double BULLET_COOLDOWN = 20;
+  public final static double BULLET_COOLDOWN = 1;
 
   public final static GamePosn STARTING_POSITION = new GamePosn(0, 0); // Potentially we wanna
   public final static double STARTING_ORIENTATION = 0;

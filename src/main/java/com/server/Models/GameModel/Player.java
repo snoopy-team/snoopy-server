@@ -1,8 +1,4 @@
 package com.server.Models.GameModel;
-
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-
 import com.server.Models.GameModel.JSON.PlayerJSON;
 
 /**
@@ -138,6 +134,7 @@ public class Player {
         the set of actions the player can take. This ensures that the Player class retains full control over the
         physics and game control.
          */
+
         switch (action) {
             case BankLeft:
                 this.bankLeft(state);
@@ -156,6 +153,7 @@ public class Player {
 
     public void fire(GameState state) {
         double maxCooldown = state.getConfig().getBulletCooldown();
+        System.out.println(this.cooldown + " maxCooldown " + maxCooldown);
         if (this.cooldown > maxCooldown) {
             this.cooldown = 0;
             state.fire(this.id, this.posn, this.orientation);

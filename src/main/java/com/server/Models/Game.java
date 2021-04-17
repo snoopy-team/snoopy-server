@@ -1,10 +1,9 @@
 package com.server.Models;
 
-import com.google.gson.JsonElement;
-
 import java.lang.module.Configuration;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -55,9 +54,11 @@ public class Game {
       );
   }
 
-  public GameStateJSON step(List<Action> actions) {
-    List<List<Action>> actionList = new ArrayList<>();
-    actionList.add(actions);
+  public GameStateJSON step(int playerId, List<Action> actions) {
+    Map<Integer, List<Action>> actionList = new HashMap<>();
+    actionList.put(playerId, actions);
+
+//    System.out.println(actions);
 
     // Add the AI actions here too
     this.gameState.stepMany(actionList, 1 / 30.0, 3);

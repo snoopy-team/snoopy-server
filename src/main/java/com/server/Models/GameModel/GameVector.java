@@ -1,8 +1,5 @@
 package com.server.Models.GameModel;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-
 /**
  * A class to represent vectors such as velocity and acceleration. Contains two signed real numbers in Cartesian
  * coordinates that match the game physics.

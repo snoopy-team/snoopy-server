@@ -1,7 +1,5 @@
 package com.server.Models.GameModel;
 
-import com.google.gson.Gson;
-
 import java.io.Reader;
 
 /**
@@ -61,16 +59,5 @@ public class GameConfig {
 
     public double getBulletSpeed() {
         return bulletSpeed;
-    }
-
-    /**
-     * Reads in config values from the JSON file.
-     * @param input the input reader
-     * @return a GameConfig initialized from the values
-     * @throws IllegalArgumentException if the JSON given is bad or missing values
-     */
-    public static GameConfig fromJson(Reader input) throws IllegalArgumentException {
-        Gson gson = new Gson();
-        return gson.fromJson(input, GameConfig.class);
     }
 }

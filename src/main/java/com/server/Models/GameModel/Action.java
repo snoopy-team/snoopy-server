@@ -7,5 +7,16 @@ public enum Action {
     BankLeft,
     BankRight,
     Thrust,
-    Fire
+    Fire;
+
+    @Override
+    public String toString() {
+        switch(this) {
+            case BankLeft: return "Bank Left";
+            case BankRight: return "Bank Right";
+            case Thrust: return "Thrust";
+            case Fire: return "Fire";
+            default: throw new IllegalArgumentException();
+        }
+    }
 }

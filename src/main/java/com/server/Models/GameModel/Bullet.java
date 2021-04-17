@@ -1,8 +1,4 @@
 package com.server.Models.GameModel;
-
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-
 import com.server.Models.GameModel.JSON.BulletJSON;
 
 /**
@@ -25,7 +21,9 @@ public class Bullet {
     }
 
     public void move(double dt) {
+        System.out.print("Before: " + this.body.getCenter().x + ", " + this.body.getCenter().y);
         this.body = this.body.moveBy(this.velocity.scale(dt));
+        System.out.println(" After: " + this.body.getCenter().x + ", " + this.body.getCenter().y);
     }
 
     public ABody getBody() {
@@ -33,7 +31,13 @@ public class Bullet {
     }
 
     public boolean isInBounds(int width, int height) {
-        return this.body.collidesWith(new Rect(0, 0, width, height));
+        GamePosn bPos = this.body.getCenter();
+        if (bPos.x >= 0 && bPos.y >= 0 && bPos.x <= width && bPos.y <= height)
+        {
+            return true;
+        }
+        return false;
+//        return this.body.collidesWith(new Rect(0, 0, width, height));
     }
 
     /**

@@ -1,7 +1,5 @@
 package com.server.Controller;
 
-import com.google.gson.JsonElement;
-
 import com.server.Configuration.Constants;
 import com.server.Models.Game;
 import com.server.Models.GameModel.JSON.GameStateJSON;
@@ -32,6 +30,9 @@ public class GameController {
       game = new Game(player);
     }
 
-    return game.step(actions.getActions());
+    //  This is hardcoded as 1 for convenience. If we're still pretending that we'll one day
+    //  support multiplayer really this whole controller needs to be thoroughly refactored, but
+    //  this especially.
+    return game.step(1, actions.getActions());
   }
 }

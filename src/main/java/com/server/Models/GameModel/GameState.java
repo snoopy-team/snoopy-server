@@ -1,13 +1,10 @@
 package com.server.Models.GameModel;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-
 import com.server.Models.GameModel.JSON.BulletJSON;
 import com.server.Models.GameModel.JSON.GameStateJSON;
 import com.server.Models.GameModel.JSON.PlayerJSON;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -59,16 +56,15 @@ public class GameState { ;
      * @param actions a list, of the same length as the players, giving the inputs for each player
      * @param dt the time (in game seconds) to play forward
      */
-    public void step(Iterable<? extends Iterable<Action>> actions, double dt) {
+    public void step(Map<Integer, ? extends Iterable<Action>> actions, double dt) {
         /*
         move players first, then bullets, then check collision
         this tends to be generous: you can outrun a bullet that occupies the spot where you were the frame you leave it
          */
-        int playerInd = 0;
-        for (Iterable<Action> actionList : actions) {
-            Player currPlayer = this.players.get(playerInd);
-            playerInd++;
-            currPlayer.takeActions(actionList, this, dt);
+        for (Integer playerId : actions.keySet())
+        {
+            Iterable<Action> actionList = actions.get(playerId);
+            this.players.get(playerId).takeActions(actionList, this, dt);
         }
 
         this.moveBullets(dt);
@@ -76,7 +72,8 @@ public class GameState { ;
         this.t += dt;
     }
 
-    public void stepMany(Iterable<? extends Iterable<Action>> actions, double dt, int numSteps) {
+    public void stepMany(Map<Integer, ? extends Iterable<Action>> actions, double dt,
+                         int numSteps) {
         for (int i = 0; i < numSteps; i++) {
             this.step(actions, dt / numSteps);
         }
@@ -88,9 +85,36 @@ public class GameState { ;
     private void moveBullets(double dt) {
         int w = this.match.getWidth();
         int h = this.match.getHeight();
-        this.playerBullets.values().forEach(bullets -> bullets.forEach(bullet -> bullet.move(dt)));
-        this.playerBullets.values().forEach(bullets -> bullets.removeIf(bullet -> !bullet.isInBounds(w,
-                h)));
+
+        for (List<Bullet> bullets : this.playerBullets.values())
+        {
+            for (Bullet bullet : bullets)
+            {
+                bullet.move(dt);
+            }
+        }
+
+//        this.playerBullets.values().forEach(bullets -> bullets.forEach(bullet -> bullet.move(dt)));
+
+        for (List<Bullet> bullets : this.playerBullets.values())
+        {
+            ArrayList<Bullet> toRemove = new ArrayList<>();
+            for (Bullet bullet : bullets)
+            {
+                if (!bullet.isInBounds(w, h))
+                {
+                    toRemove.add(bullet);
+                }
+            }
+            // To avoid concurrent modification
+            for (Bullet bullet : toRemove)
+            {
+                bullets.remove(bullet);
+            }
+        }
+
+//        this.playerBullets.values().forEach(bullets -> bullets.removeIf(bullet -> !bullet.isInBounds(w,
+//                h)));
     }
 
     /**
@@ -131,6 +155,7 @@ public class GameState { ;
      * @param orientation the orientation in which to fire the bullet (in radians)
      */
     public void fire(int shooterId, GamePosn posn, double orientation) {
+        System.out.println("Fired");
         this.playerBullets.get(shooterId).add(this.makeBullet(posn, orientation));
     }
 

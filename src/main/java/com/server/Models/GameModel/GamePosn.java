@@ -1,8 +1,5 @@
 package com.server.Models.GameModel;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-
 /**
  * A class to represent coordinates in the game world. The game coordinate system is Cartesian, so the lower-left corner
  * is the origin.
