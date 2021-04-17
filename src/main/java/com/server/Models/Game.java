@@ -60,7 +60,7 @@ public class Game {
     actionList.add(actions);
 
     // Add the AI actions here too
-    this.gameState.stepMany(actionList, 1, 1);
+    this.gameState.stepMany(actionList, 1 / 30.0, 3);
 
     return this.gameState.toJson();
   }
