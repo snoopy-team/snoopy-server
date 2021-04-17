@@ -82,8 +82,9 @@ var Camera = /** @class */ (function () {
             var gridSquareVec = { x: _this.scale * gridSquareSize, y: _this.scale * gridSquareSize };
             _this.background.draw(ctx, worldBounds.topLeft, worldBounds.bottomRight, gridSquareVec);
             // Draw all objects
-            for (var _i = 0, _a = _this.scene; _i < _a.length; _i++) {
-                var object = _a[_i];
+            var scene = _this.scene();
+            for (var _i = 0, scene_1 = scene; _i < scene_1.length; _i++) {
+                var object = scene_1[_i];
                 var objPos = object.getPosition();
                 var scaledSize = multiplyVectors({ x: _this.scale, y: _this.scale }, object.getSize());
                 if (_this.coordWithinBounds(objPos)) {
@@ -247,11 +248,13 @@ var DebugCamera = /** @class */ (function (_super) {
     DebugCamera.prototype.displayDebugMenu = function () {
         ctx.font = "15px Arial";
         var currLineYPos = 30;
+        ctx.transform(1, 0, 0, -1, 0, canvas.height);
         for (var _i = 0, _a = this.debugLines; _i < _a.length; _i++) {
             var grabDebugMessage = _a[_i];
             ctx.fillText(grabDebugMessage(), 30, currLineYPos);
             currLineYPos += 30;
         }
+        ctx.transform(1, 0, 0, -1, 0, canvas.height);
     };
     return DebugCamera;
 }(Camera));

@@ -40,6 +40,7 @@ public class Bullet {
      * Serializes the object to a JSON string in the expected format.
      */
     public BulletJSON toJson() {
-        return new BulletJSON(this.body.getCenter().toJson(), this.velocity.toJson());
+        return new BulletJSON(this.body.getCenter().toJson(),
+                this.velocity.toJson());
     }
 }

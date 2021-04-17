@@ -1,12 +1,15 @@
 package com.server.Models.GameModel.JSON;
 
+import java.util.Map;
+
 public class GameStateJSON {
   private String status;
   private double t;
-  private PlayerJSON[] players;
-  private BulletJSON[][] bullets;
+  private Map<Integer, PlayerJSON> players;
+  private Map<Integer, BulletJSON[]> bullets;
 
-  public GameStateJSON(String status, double t, PlayerJSON[] players, BulletJSON[][] bullets) {
+  public GameStateJSON(String status, double t, Map<Integer, PlayerJSON> players, Map<Integer,
+          BulletJSON[]> bullets) {
     this.status = status;
     this.t = t;
     this.players = players;
@@ -21,11 +24,11 @@ public class GameStateJSON {
     return t;
   }
 
-  public PlayerJSON[] getPlayers() {
+  public Map<Integer, PlayerJSON> getPlayers() {
     return players;
   }
 
-  public BulletJSON[][] getBullets() {
+  public Map<Integer, BulletJSON[]> getBullets() {
     return bullets;
   }
 }

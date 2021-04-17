@@ -5,7 +5,6 @@ import com.server.Models.GameModel.GamePosn;
 public class Constants {
 
   // Constants; should probably change these to read from a file or something
-
   // "tight" controls
   private final static double TERMINAL_VELOCITY = 5.0;
   private final static double THRUST_MAX_SPEED = 20.0;
@@ -19,7 +18,7 @@ public class Constants {
 
   public final static double TURN_SPEED = 4.0;
   public final static double BULLET_RADIUS = 5;
-  public final static double BULLET_SPEED = 10;
+  public final static double BULLET_SPEED = 1;
   public final static double PLAYER_RADIUS = 15;
   public final static double BULLET_COOLDOWN = 20;
 

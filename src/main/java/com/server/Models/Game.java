@@ -4,8 +4,10 @@ import com.google.gson.JsonElement;
 
 import java.lang.module.Configuration;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import com.server.Configuration.Constants;
 import com.server.Models.GameModel.Action;
@@ -33,13 +35,13 @@ public class Game {
     this.snoopy = new Snoopy();
 
     var players = new ArrayList<Player>();
-//    players.add(new Player(Constants.AI_STARTING_POSITION, Constants.AI_STARTING_ORIENTATION,
-//            Constants.AI_INDEX));
+    players.add(new Player(Constants.AI_STARTING_POSITION, Constants.AI_STARTING_ORIENTATION,
+            Constants.AI_INDEX));
     players.add(player);
 
-    var bulletLists = new ArrayList<ArrayList<Bullet>>();
-    bulletLists.add(new ArrayList<Bullet>());
-//    bulletLists.add(new ArrayList<Bullet>());
+    var bulletLists = new HashMap<Integer, ArrayList<Bullet>>();
+    bulletLists.put(player.getId(), new ArrayList<Bullet>());
+    bulletLists.put(Constants.AI_INDEX, new ArrayList<Bullet>());
 
     this.gameState =
         new GameState(
