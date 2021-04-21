@@ -21,9 +21,7 @@ public class Bullet {
     }
 
     public void move(double dt) {
-        System.out.print("Before: " + this.body.getCenter().x + ", " + this.body.getCenter().y);
         this.body = this.body.moveBy(this.velocity.scale(dt));
-        System.out.println(" After: " + this.body.getCenter().x + ", " + this.body.getCenter().y);
     }
 
     public ABody getBody() {

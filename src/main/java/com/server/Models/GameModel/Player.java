@@ -163,11 +163,12 @@ public class Player {
         if (this.posn.x < 0 || this.posn.x > width)
         {
             this.velocity = new GameVector(-this.velocity.x, this.velocity.y);
+            this.orientation = Math.PI - this.orientation;
         }
-
         if (this.posn.y > height)
         {
             this.velocity = new GameVector(this.velocity.x, -this.velocity.y);
+            this.orientation *= -1;
         }
     }
 
@@ -239,5 +240,18 @@ public class Player {
 
     public double getCooldown() {
         return cooldown;
+    }
+
+    /**
+     * Returns if the player is dead.
+     * @return how dead the player is.
+     */
+    public boolean isDead()
+    {
+        if (this.posn.y < 0)
+        {
+            return true;
+        }
+        return false;
     }
 }

@@ -28,9 +28,12 @@ public class GameState {
 
     boolean isOver;
 
+    Integer winningPlayer;
+
+    Integer losingPlayer;
+
     public GameState(List<Player> players, Map<Integer, ? extends List<Bullet>> playerBullets,
-                     double t,
-                     GameConfig config, PhysicsModel physics, MatchSetup match) {
+                     double t, GameConfig config, PhysicsModel physics, MatchSetup match) {
         this.players = players;
         this.playerBullets = playerBullets;
         this.t = t;
@@ -38,6 +41,8 @@ public class GameState {
         this.physics = physics;
         this.match = match;
         this.isOver = false;
+        this.winningPlayer = null;
+        this.losingPlayer = null;
     }
 
     public GameConfig getConfig() {
@@ -63,7 +68,15 @@ public class GameState {
          */
         for (Integer playerId : actions.keySet())
         {
-            Iterable<Action> actionList = actions.get(playerId);
+            Iterable<Action> actionList;
+            if (playerId != this.losingPlayer)
+            {
+                 actionList = actions.get(playerId);
+            }
+            else {
+                actionList = new ArrayList<Action>();
+            }
+
             this.players.get(playerId).takeActions(actionList, this, dt);
             this.players.get(playerId).handleBoundaries(this.match.getWidth(), this.match.getHeight());
         }
@@ -139,14 +152,23 @@ public class GameState {
                             .collect(Collectors.toList()));
                 }
                 if (bullets.hasCollision(this.players.get(playerInd).getBody(this.getConfig()))) {
-                    this.endGame();
+                    this.losePlayer(oppInd, playerInd);
                 }
             }
         }
     }
 
-    private void endGame() {
-        this.isOver = true;
+    private void losePlayer(int winningPlayer, int losingPlayer) {
+        this.winningPlayer = winningPlayer;
+        this.losingPlayer = losingPlayer;
+    }
+
+    private void endGame()
+    {
+        if (this.players.get(losingPlayer).isDead())
+        {
+            this.isOver = true;
+        }
     }
 
     /**
@@ -156,7 +178,6 @@ public class GameState {
      * @param orientation the orientation in which to fire the bullet (in radians)
      */
     public void fire(int shooterId, GamePosn posn, double orientation) {
-        System.out.println("Fired");
         this.playerBullets.get(shooterId).add(this.makeBullet(posn, orientation));
     }
 
@@ -193,7 +214,8 @@ public class GameState {
             bullets.put(playerId, bulletJSONS);
         }
 
-        return new GameStateJSON(status, this.t, players, bullets);
+        return new GameStateJSON(status, this.t, players, bullets, this.winningPlayer,
+                this.isOver);
     }
 
     /**
