@@ -1,8 +1,12 @@
 package com.server.Models;
 
 import com.server.Configuration.Constants;
+import com.server.Models.Barons.Evaluator;
+import com.server.Models.Barons.Features.NearestBulletFeature;
+import com.server.Models.Barons.Features.PositionScoreFeature;
 import com.server.Models.Barons.IBaron;
-import com.server.Models.Barons.StallBaron;
+import com.server.Models.Barons.LinearEvaluator;
+import com.server.Models.Barons.SimpleSearchBaron;
 import com.server.Models.GameModel.*;
 import com.server.Models.GameModel.JSON.GameStateJSON;
 
@@ -10,8 +14,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import static com.server.Configuration.Constants.AI_INDEX;
 
 /**
  * A game of snoopy dogfight, which keeps track of the GameState and players.
@@ -21,16 +23,19 @@ public class Game {
   private final IBaron snoopy;
 
   public Game(Player player) {
-    this.snoopy = new StallBaron();
+    Evaluator basicEval = new LinearEvaluator(
+            List.of(new NearestBulletFeature(), new PositionScoreFeature()),
+            List.of(20.0, 1.0));
+    this.snoopy = new SimpleSearchBaron(basicEval, 5);
 
     var players = new ArrayList<Player>();
     players.add(new Player(Constants.AI_STARTING_POSITION, Constants.AI_STARTING_ORIENTATION,
-            AI_INDEX));
+            Constants.AI_INDEX));
     players.add(player);
 
     var bulletLists = new HashMap<Integer, ArrayList<Bullet>>();
     bulletLists.put(player.getId(), new ArrayList<Bullet>());
-    bulletLists.put(AI_INDEX, new ArrayList<Bullet>());
+    bulletLists.put(Constants.AI_INDEX, new ArrayList<Bullet>());
 
     this.gameState =
         new GameState(
@@ -47,7 +52,7 @@ public class Game {
   public GameStateJSON step(int playerId, List<Action> actions) {
     Map<Integer, Iterable<Action>> actionList = new HashMap<>();
     actionList.put(playerId, actions);
-    actionList.put(AI_INDEX, this.snoopy.getActions(this.gameState, AI_INDEX));
+    actionList.put(Constants.AI_INDEX, this.snoopy.getActions(this.gameState, Constants.AI_INDEX));
 
 //    System.out.println(actions);
 

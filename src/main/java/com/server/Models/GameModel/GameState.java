@@ -45,6 +45,20 @@ public class GameState {
         this.losingPlayer = null;
     }
 
+    /**
+     * Copy constructor.
+     * @param other the other game state
+     */
+    public GameState(GameState other) {
+        this.players = other.players;
+        this.playerBullets = other.playerBullets;
+        this.t = other.t;
+        this.config = other.config;
+        this.physics = other.physics;
+        this.match = other.match;
+        this.isOver = other.isOver;
+    }
+
     public GameConfig getConfig() {
         return this.config;
     }
