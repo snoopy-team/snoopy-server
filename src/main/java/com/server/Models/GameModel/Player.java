@@ -165,7 +165,7 @@ public class Player {
             this.velocity = new GameVector(-this.velocity.x, this.velocity.y);
         }
 
-        if (this.posn.y < 0)
+        if (this.posn.y > height)
         {
             this.velocity = new GameVector(this.velocity.x, -this.velocity.y);
         }
