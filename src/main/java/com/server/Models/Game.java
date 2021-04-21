@@ -1,27 +1,15 @@
 package com.server.Models;
 
-import java.lang.module.Configuration;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
 import com.server.Configuration.Constants;
-import com.server.Models.GameModel.Action;
-import com.server.Models.GameModel.GameState;
-import com.server.Models.GameModel.GamePosn;
+import com.server.Models.GameModel.*;
 import com.server.Models.GameModel.JSON.GameStateJSON;
-import com.server.Models.GameModel.Player;
-import com.server.Models.GameModel.Bullet;
-import com.server.Models.GameModel.GameConfig;
-import com.server.Models.GameModel.PhysicsModel;
-import com.server.Models.GameModel.MatchSetup;
 import com.server.Models.Snoopies.ISnoopy;
 import com.server.Models.Snoopies.Snoopy;
 
-import org.apache.tomcat.util.bcel.Const;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import static com.server.Configuration.Constants.AI_INDEX;
 
@@ -50,7 +38,7 @@ public class Game {
         bulletLists,
         0,
         new GameConfig(Constants.TURN_SPEED, Constants.BULLET_RADIUS, Constants.BULLET_SPEED,
-                Constants.PLAYER_RADIUS, Constants.BULLET_COOLDOWN),
+                Constants.PLAYER_RADIUS, Constants.BULLET_COOLDOWN, Constants.NUM_BULLETS, Constants.BULLET_SPREAD),
         new PhysicsModel(Constants.THRUST_POWER, Constants.GRAVITY_STRENGTH, Constants.DRAG_FACTOR),
         new MatchSetup(Constants.WIDTH, Constants.HEIGHT)
       );

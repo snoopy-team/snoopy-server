@@ -153,10 +153,19 @@ public class Player {
 
     public void fire(GameState state) {
         double maxCooldown = state.getConfig().getBulletCooldown();
-        System.out.println(this.cooldown + " maxCooldown " + maxCooldown);
+        int numBullets = state.getConfig().getNumBullets();
+        double bulletSpread = state.getConfig().getBulletSpread();
+
         if (this.cooldown > maxCooldown) {
             this.cooldown = 0;
-            state.fire(this.id, this.posn, this.orientation);
+
+
+            for (int i = 0; i < numBullets; i++) {
+                // convert, e.g., 0 through 4 to -2 through 2
+                // >> is dividing by 2 and flooring in a way IntelliJ won't be mad at me for doing
+                double currAngle = (numBullets >> 1) * bulletSpread - i * bulletSpread;
+                state.fire(this.id, this.posn, this.orientation + currAngle);
+            }
         }
     }
 

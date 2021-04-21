@@ -26,6 +26,13 @@ public class Constants {
   public final static double PLAYER_RADIUS = 15;
   public final static double BULLET_COOLDOWN = 1;
 
+  // number of bullets fired at once, in a "shotgun" spread pattern
+  // should be odd if you want it to be symmetric
+  public final static int NUM_BULLETS = 5;
+  // angle between bullets, in radians
+  public final static double BULLET_SPREAD = Math.PI / 8;
+
+
   public final static GamePosn STARTING_POSITION = new GamePosn(0, 0); // Potentially we wanna
   public final static double STARTING_ORIENTATION = 0;
 
