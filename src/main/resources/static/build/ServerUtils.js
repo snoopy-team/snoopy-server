@@ -331,7 +331,7 @@ var LiveServer = /** @class */ (function () {
             var stompClient = Stomp.over(socket);
             stompClient.connect({}, function (frame) {
                 console.log('Connected: ' + frame);
-                stompClient.subscribe('/topic/greetings', function (greeting) {
+                stompClient.subscribe('/game/to-client', function (greeting) {
                     // console.log(JSON.parse(greeting.body));
                     _this.broadcastUpdate(new RawServerUpdateWrapper(JSON.parse(greeting.body)));
                 });
@@ -349,7 +349,7 @@ var LiveServer = /** @class */ (function () {
                 // time step. :(
                 setInterval(function () {
                     var out = JSON.stringify({ actions: _this.keysDown });
-                    stompClient.send("/app/hello", {}, out);
+                    stompClient.send("/to-server", {}, out);
                 }, 30);
             });
         };
