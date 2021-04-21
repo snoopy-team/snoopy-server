@@ -65,6 +65,7 @@ public class GameState { ;
         {
             Iterable<Action> actionList = actions.get(playerId);
             this.players.get(playerId).takeActions(actionList, this, dt);
+            this.players.get(playerId).handleBoundaries(this.match.getWidth(), this.match.getHeight());
         }
 
         this.moveBullets(dt);

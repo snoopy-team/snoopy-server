@@ -1,4 +1,4 @@
-package com.server.Models.Snoopies;
+package com.server.Models.Barons;
 
 import com.server.Models.GameModel.Action;
 import com.server.Models.GameModel.GameState;
@@ -6,7 +6,7 @@ import com.server.Models.GameModel.GameState;
 /**
  * Represents an artificial intelligence agent for the game.
  */
-public interface ISnoopy {
+public interface IBaron {
   /**
    * Generates a list of actions the AI will take given a gamestate.
    *

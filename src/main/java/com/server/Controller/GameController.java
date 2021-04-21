@@ -20,8 +20,8 @@ public class GameController {
   private static ArrayList<Player> players = new ArrayList<Player>();
   private static int ids = Constants.AI_INDEX + 1;
 
-  @MessageMapping("/hello")
-  @SendTo("/topic/greetings")
+  @MessageMapping("/to-server")
+  @SendTo("/game/to-client")
   public GameStateJSON greeting(ActionsPacket actions) throws Exception {
     if (game == null) {
       Player player = new Player(Constants.STARTING_POSITION, Constants.STARTING_ORIENTATION,
@@ -35,4 +35,20 @@ public class GameController {
     //  this especially.
     return game.step(1, actions.getActions());
   }
+
+//  @MessageMapping("/to-server")
+//  @SendTo("/game/to-client")
+//  public GameStateJSON greeting(ActionsPacket actions) throws Exception {
+//    if (game == null) {
+//      Player player = new Player(Constants.STARTING_POSITION, Constants.STARTING_ORIENTATION,
+//              ids);
+//      ids++;
+//      game = new Game(player);
+//    }
+//
+//    //  This is hardcoded as 1 for convenience. If we're still pretending that we'll one day
+//    //  support multiplayer really this whole controller needs to be thoroughly refactored, but
+//    //  this especially.
+//    return game.step(1, actions.getActions());
+//  }
 }

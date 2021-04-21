@@ -151,6 +151,26 @@ public class Player {
         }
     }
 
+    /**
+     * Handles the cases where player exits the boundaries on the x axis, or goes too far up;
+     * however, does NOT handle the case where the player exits the bottom boundary of the screen
+     * (in which case, player dies).
+     *
+     * @param width width of the play area, in game units.
+     * @param height height of the play area, in game units.
+     */
+    public void handleBoundaries(int width, int height) {
+        if (this.posn.x < 0 || this.posn.x > width)
+        {
+            this.velocity = new GameVector(-this.velocity.x, this.velocity.y);
+        }
+
+        if (this.posn.y < 0)
+        {
+            this.velocity = new GameVector(this.velocity.x, -this.velocity.y);
+        }
+    }
+
     public void fire(GameState state) {
         double maxCooldown = state.getConfig().getBulletCooldown();
         System.out.println(this.cooldown + " maxCooldown " + maxCooldown);

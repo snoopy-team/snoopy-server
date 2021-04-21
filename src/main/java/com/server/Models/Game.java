@@ -1,27 +1,21 @@
 package com.server.Models;
 
-import java.lang.module.Configuration;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import com.server.Configuration.Constants;
 import com.server.Models.GameModel.Action;
 import com.server.Models.GameModel.GameState;
-import com.server.Models.GameModel.GamePosn;
 import com.server.Models.GameModel.JSON.GameStateJSON;
 import com.server.Models.GameModel.Player;
 import com.server.Models.GameModel.Bullet;
 import com.server.Models.GameModel.GameConfig;
 import com.server.Models.GameModel.PhysicsModel;
 import com.server.Models.GameModel.MatchSetup;
-import com.server.Models.Snoopies.ISnoopy;
-import com.server.Models.Snoopies.Snoopy;
-
-import org.apache.tomcat.util.bcel.Const;
+import com.server.Models.Barons.IBaron;
+import com.server.Models.Barons.BasicBaron;
 
 import static com.server.Configuration.Constants.AI_INDEX;
 
@@ -30,10 +24,10 @@ import static com.server.Configuration.Constants.AI_INDEX;
  */
 public class Game {
   private final GameState gameState;
-  private final ISnoopy snoopy;
+  private final IBaron snoopy;
 
   public Game(Player player) {
-    this.snoopy = new Snoopy();
+    this.snoopy = new BasicBaron();
 
     var players = new ArrayList<Player>();
     players.add(new Player(Constants.AI_STARTING_POSITION, Constants.AI_STARTING_ORIENTATION,
