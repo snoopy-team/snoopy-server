@@ -1,7 +1,5 @@
 package com.server.Models.GameModel;
 
-import java.io.Reader;
-
 /**
  * Class for storing global game variables not related to the physics engine, such as the sizes of game objects, the
  * turning speed, and weapons specifications.
@@ -32,13 +30,18 @@ public class GameConfig {
      */
     final double bulletCooldown;
 
+    final int numBullets;
+    final double bulletSpread;
+
     public GameConfig(double turnSpeed, double bulletRadius, double bulletSpeed, double playerRadius,
-                      double bulletCooldown) {
+                      double bulletCooldown, int numBullets, double bulletSpread) {
         this.turnSpeed = turnSpeed;
         this.bulletRadius = bulletRadius;
         this.bulletSpeed = bulletSpeed;
         this.playerRadius = playerRadius;
         this.bulletCooldown = bulletCooldown;
+        this.numBullets = numBullets;
+        this.bulletSpread = bulletSpread;
     }
 
     public double getTurnSpeed() {
@@ -49,6 +52,10 @@ public class GameConfig {
         return bulletRadius;
     }
 
+    public double getBulletSpeed() {
+        return bulletSpeed;
+    }
+
     public double getPlayerRadius() {
         return playerRadius;
     }
@@ -57,7 +64,11 @@ public class GameConfig {
         return bulletCooldown;
     }
 
-    public double getBulletSpeed() {
-        return bulletSpeed;
+    public int getNumBullets() {
+        return numBullets;
+    }
+
+    public double getBulletSpread() {
+        return bulletSpread;
     }
 }

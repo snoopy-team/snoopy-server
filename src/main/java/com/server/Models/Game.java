@@ -6,8 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.server.Configuration.Constants;
-import com.server.Models.GameModel.Action;
-import com.server.Models.GameModel.GameState;
+import com.server.Models.GameModel.*;
 import com.server.Models.GameModel.JSON.GameStateJSON;
 import com.server.Models.GameModel.Player;
 import com.server.Models.GameModel.Bullet;
@@ -44,7 +43,7 @@ public class Game {
         bulletLists,
         0,
         new GameConfig(Constants.TURN_SPEED, Constants.BULLET_RADIUS, Constants.BULLET_SPEED,
-                Constants.PLAYER_RADIUS, Constants.BULLET_COOLDOWN),
+                Constants.PLAYER_RADIUS, Constants.BULLET_COOLDOWN, Constants.NUM_BULLETS, Constants.BULLET_SPREAD),
         new PhysicsModel(Constants.THRUST_POWER, Constants.GRAVITY_STRENGTH, Constants.DRAG_FACTOR),
         new MatchSetup(Constants.WIDTH, Constants.HEIGHT)
       );
