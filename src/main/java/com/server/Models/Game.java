@@ -1,20 +1,15 @@
 package com.server.Models;
 
+import com.server.Configuration.Constants;
+import com.server.Models.Barons.IBaron;
+import com.server.Models.Barons.StallBaron;
+import com.server.Models.GameModel.*;
+import com.server.Models.GameModel.JSON.GameStateJSON;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import com.server.Configuration.Constants;
-import com.server.Models.GameModel.*;
-import com.server.Models.GameModel.JSON.GameStateJSON;
-import com.server.Models.GameModel.Player;
-import com.server.Models.GameModel.Bullet;
-import com.server.Models.GameModel.GameConfig;
-import com.server.Models.GameModel.PhysicsModel;
-import com.server.Models.GameModel.MatchSetup;
-import com.server.Models.Barons.IBaron;
-import com.server.Models.Barons.BasicBaron;
 
 import static com.server.Configuration.Constants.AI_INDEX;
 
@@ -26,7 +21,7 @@ public class Game {
   private final IBaron snoopy;
 
   public Game(Player player) {
-    this.snoopy = new BasicBaron();
+    this.snoopy = new StallBaron();
 
     var players = new ArrayList<Player>();
     players.add(new Player(Constants.AI_STARTING_POSITION, Constants.AI_STARTING_ORIENTATION,
@@ -50,9 +45,9 @@ public class Game {
   }
 
   public GameStateJSON step(int playerId, List<Action> actions) {
-    Map<Integer, List<Action>> actionList = new HashMap<>();
+    Map<Integer, Iterable<Action>> actionList = new HashMap<>();
     actionList.put(playerId, actions);
-    actionList.put(AI_INDEX, new ArrayList<Action>());
+    actionList.put(AI_INDEX, this.snoopy.getActions(this.gameState, AI_INDEX));
 
 //    System.out.println(actions);
 

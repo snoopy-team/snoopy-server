@@ -212,4 +212,32 @@ public class Player {
     public int getId() {
         return this.id;
     }
+
+    public GamePosn getPosn() {
+        return posn;
+    }
+
+    public GameVector getVelocity() {
+        return velocity;
+    }
+
+    public GameVector getAccel() {
+        return accel;
+    }
+
+    public double getOrientation() {
+        return orientation;
+    }
+
+    public boolean isThrustersOn() {
+        return thrustersOn;
+    }
+
+    public double getAngularVelocity() {
+        return angularVelocity;
+    }
+
+    public double getCooldown() {
+        return cooldown;
+    }
 }

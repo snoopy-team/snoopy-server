@@ -349,7 +349,7 @@ var LiveServer = /** @class */ (function () {
                 // time step. :(
                 setInterval(function () {
                     var out = JSON.stringify({ actions: _this.keysDown });
-                    stompClient.send("/to-server", {}, out);
+                    stompClient.send("/app/to-server", {}, out);
                 }, 30);
             });
         };

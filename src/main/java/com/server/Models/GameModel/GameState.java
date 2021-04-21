@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 /**
  * The state of the game at a specific time, including the player states and bullet states.
  */
-public class GameState { ;
+public class GameState {
     List<Player> players;
 
     Map<Integer, ? extends List<Bullet>> playerBullets;
@@ -202,5 +202,17 @@ public class GameState { ;
      */
     public void addPlayer(Player player) {
         this.players.add(player);
+    }
+
+    public List<Player> getPlayers() {
+        return players;
+    }
+
+    public Map<Integer, ? extends List<Bullet>> getPlayerBullets() {
+        return playerBullets;
+    }
+
+    public MatchSetup getMatch() {
+        return match;
     }
 }
