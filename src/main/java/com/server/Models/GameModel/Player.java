@@ -61,6 +61,17 @@ public class Player {
         this.cooldown = 0;
     }
 
+    public Player(Player other) {
+        this.posn = other.posn;
+        this.orientation = other.orientation;
+        this.id = other.id;
+        this.velocity = other.velocity;
+        this.accel = other.accel;
+        this.thrustersOn = other.thrustersOn;
+        this.angularVelocity = other.angularVelocity;
+        this.cooldown = other.cooldown;
+    }
+
     public ABody getBody(GameConfig config) {
         return new Rect(this.posn, config.getPlayerRadius(), config.getPlayerRadius());
     }

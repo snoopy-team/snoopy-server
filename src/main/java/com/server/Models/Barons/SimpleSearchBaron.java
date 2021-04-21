@@ -2,7 +2,6 @@ package com.server.Models.Barons;
 
 import com.server.Models.GameModel.Action;
 import com.server.Models.GameModel.GameState;
-import com.server.Models.GameModel.Player;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -63,10 +62,9 @@ public class SimpleSearchBaron implements IBaron {
     private GameState stepAI(GameState state, int id, ArrayList<Action> actions) {
         Map<Integer, ArrayList<Action>> inputs = new HashMap<>();
         inputs.put(id, actions);
-        for (Player player : state.getPlayers()) {
-            int otherId = player.getId();
-            if (otherId != id) {
-                inputs.put(otherId, new ArrayList<>());
+        for (int i = 0; i < state.getPlayers().size(); i++) {
+            if (i != id) {
+                inputs.put(i, new ArrayList<>());
             }
         }
         GameState newState = new GameState(state);

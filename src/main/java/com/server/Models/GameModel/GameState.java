@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 public class GameState {
     List<Player> players;
 
-    Map<Integer, ? extends List<Bullet>> playerBullets;
+    Map<Integer, ArrayList<Bullet>> playerBullets;
 
     double t;
 
@@ -32,7 +32,7 @@ public class GameState {
 
     Integer losingPlayer;
 
-    public GameState(List<Player> players, Map<Integer, ? extends List<Bullet>> playerBullets,
+    public GameState(List<Player> players, Map<Integer, ArrayList<Bullet>> playerBullets,
                      double t, GameConfig config, PhysicsModel physics, MatchSetup match) {
         this.players = players;
         this.playerBullets = playerBullets;
@@ -50,8 +50,15 @@ public class GameState {
      * @param other the other game state
      */
     public GameState(GameState other) {
-        this.players = other.players;
-        this.playerBullets = other.playerBullets;
+        this.players = other.players.stream().map(p -> new Player(p)).collect(Collectors.toList());
+        this.playerBullets = new HashMap<Integer, ArrayList<Bullet>>();
+        for (Map.Entry<Integer, ? extends List<Bullet>> entry: other.playerBullets.entrySet()) {
+            ArrayList<Bullet> newBullets = new ArrayList<>();
+            for (Bullet b : entry.getValue()) {
+                newBullets.add(new Bullet(b));
+            }
+            this.playerBullets.put(entry.getKey(), newBullets);
+        }
         this.t = other.t;
         this.config = other.config;
         this.physics = other.physics;
@@ -83,7 +90,7 @@ public class GameState {
         for (Integer playerId : actions.keySet())
         {
             Iterable<Action> actionList;
-            if (playerId != this.losingPlayer)
+            if (!playerId.equals(this.losingPlayer))
             {
                  actionList = actions.get(playerId);
             }
@@ -244,7 +251,7 @@ public class GameState {
         return players;
     }
 
-    public Map<Integer, ? extends List<Bullet>> getPlayerBullets() {
+    public Map<Integer, ArrayList<Bullet>> getPlayerBullets() {
         return playerBullets;
     }
 

@@ -20,6 +20,11 @@ public class Bullet {
         this.velocity = velocity;
     }
 
+    public Bullet(Bullet other) {
+        this.body = other.body;
+        this.velocity = other.velocity;
+    }
+
     public void move(double dt) {
         this.body = this.body.moveBy(this.velocity.scale(dt));
     }
