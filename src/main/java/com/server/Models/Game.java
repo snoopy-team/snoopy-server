@@ -26,7 +26,7 @@ public class Game {
     Evaluator basicEval = new LinearEvaluator(
             List.of(new NearestBulletFeature(), new PositionScoreFeature()),
             List.of(20.0, 1.0));
-    this.snoopy = new SimpleSearchBaron(basicEval, 5);
+    this.snoopy = new SimpleSearchBaron(basicEval, 1);
 
     this.gameState = new GameState();
   }
