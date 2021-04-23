@@ -140,7 +140,8 @@ public class GridBullets implements Bullets {
 
     @Override
     public <T> T[] toArray(T[] ts) {
-        // TODO why does this warning happen?
+        // IntelliJ will warn you here but they lie
+        // their fix breaks the code and idk what's wrong with it
         return this.bulletSet.toArray(ts);
     }
 

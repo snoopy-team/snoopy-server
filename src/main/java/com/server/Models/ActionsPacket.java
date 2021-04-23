@@ -19,14 +19,12 @@ public class ActionsPacket {
   public ArrayList<Action> getActions() {
     ArrayList<Action> actions = new ArrayList<>();
 
-    for (int i = 0; i < this.actions.length; i++)
-    {
-      Action action = keyStrokeToAction(this.actions[i]);
-      if (action != null)
-      {
-        actions.add(action);
+      for (String s : this.actions) {
+          Action action = keyStrokeToAction(s);
+          if (action != null) {
+              actions.add(action);
+          }
       }
-    }
 
     return actions;
   }

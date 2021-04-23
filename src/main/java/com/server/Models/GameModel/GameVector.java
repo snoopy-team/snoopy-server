@@ -8,12 +8,12 @@ public class GameVector {
     /**
      * The x-value.
      */
-    double x;
+    final double x;
 
     /**
      * The y-value.
      */
-    double y;
+    final double y;
 
     /**
      * The constructor.

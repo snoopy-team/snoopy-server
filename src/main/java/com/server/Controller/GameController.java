@@ -14,12 +14,12 @@ import java.util.ArrayList;
 @Controller
 public class GameController {
   static Game game = null;
-  private static ArrayList<Player> players = new ArrayList<Player>();
+  private static final ArrayList<Player> players = new ArrayList<>();
   private static int ids = Constants.AI_INDEX + 1;
 
   @MessageMapping("/to-server")
   @SendTo("/game/to-client")
-  public GameStateJSON greeting(ActionsPacket actions) throws Exception {
+  public GameStateJSON greeting(ActionsPacket actions) {
     if (game == null) {
       Player player = new Player(Constants.STARTING_POSITION, Constants.STARTING_ORIENTATION,
               ids);

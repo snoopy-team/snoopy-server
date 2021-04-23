@@ -13,7 +13,7 @@ public class Bullet {
     /**
      * The velocity.
      */
-    GameVector velocity;
+    final GameVector velocity;
 
     public Bullet(ABody body, GameVector velocity) {
         this.body = body;
@@ -35,11 +35,7 @@ public class Bullet {
 
     public boolean isInBounds(int width, int height) {
         GamePosn bPos = this.body.getCenter();
-        if (bPos.x >= 0 && bPos.y >= 0 && bPos.x <= width && bPos.y <= height)
-        {
-            return true;
-        }
-        return false;
+        return bPos.x >= 0 && bPos.y >= 0 && bPos.x <= width && bPos.y <= height;
 //        return this.body.collidesWith(new Rect(0, 0, width, height));
     }
 

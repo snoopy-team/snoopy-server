@@ -8,12 +8,12 @@ public class GamePosn {
     /**
      * The x-coordinate.
      */
-    double x;
+    final double x;
 
     /**
      * The y-coordinate.
      */
-    double y;
+    final double y;
 
     /**
      * Constructor:

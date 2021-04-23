@@ -3,12 +3,12 @@ package com.server.Models.GameModel.JSON;
 import java.util.Map;
 
 public class GameStateJSON {
-  private String status;
-  private double t;
-  private Map<Integer, PlayerJSON> players;
-  private Map<Integer, BulletJSON[]> bullets;
-  private Integer winner;
-  private boolean isOver;
+  private final String status;
+  private final double t;
+  private final Map<Integer, PlayerJSON> players;
+  private final Map<Integer, BulletJSON[]> bullets;
+  private final Integer winner;
+  private final boolean isOver;
 
   public GameStateJSON(String status, double t, Map<Integer, PlayerJSON> players, Map<Integer,
           BulletJSON[]> bullets, Integer winner, boolean isOver) {

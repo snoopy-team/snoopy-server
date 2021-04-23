@@ -50,8 +50,8 @@ public class GameState {
      * @param other the other game state
      */
     public GameState(GameState other) {
-        this.players = other.players.stream().map(p -> new Player(p)).collect(Collectors.toList());
-        this.playerBullets = new HashMap<Integer, ArrayList<Bullet>>();
+        this.players = other.players.stream().map(Player::new).collect(Collectors.toList());
+        this.playerBullets = new HashMap<>();
         for (Map.Entry<Integer, ? extends List<Bullet>> entry: other.playerBullets.entrySet()) {
             ArrayList<Bullet> newBullets = new ArrayList<>();
             for (Bullet b : entry.getValue()) {
@@ -64,6 +64,8 @@ public class GameState {
         this.physics = other.physics;
         this.match = other.match;
         this.isOver = other.isOver;
+        this.winningPlayer = other.winningPlayer;
+        this.losingPlayer = other.losingPlayer;
     }
 
     public GameConfig getConfig() {
@@ -95,7 +97,7 @@ public class GameState {
                  actionList = actions.get(playerId);
             }
             else {
-                actionList = new ArrayList<Action>();
+                actionList = new ArrayList<>();
             }
 
             this.players.get(playerId).takeActions(actionList, this, dt);

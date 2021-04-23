@@ -34,8 +34,8 @@ public class Game {
     players.add(player);
 
     var bulletLists = new HashMap<Integer, ArrayList<Bullet>>();
-    bulletLists.put(player.getId(), new ArrayList<Bullet>());
-    bulletLists.put(Constants.AI_INDEX, new ArrayList<Bullet>());
+    bulletLists.put(player.getId(), new ArrayList<>());
+    bulletLists.put(Constants.AI_INDEX, new ArrayList<>());
 
     this.gameState =
         new GameState(
