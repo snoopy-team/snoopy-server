@@ -20,12 +20,11 @@ public class GameController {
   @MessageMapping("/to-server")
   @SendTo("/game/to-client")
   public GameStateJSON greeting(ActionsPacket actions) {
-    if (game == null) {
-      Player player = new Player(Constants.STARTING_POSITION, Constants.STARTING_ORIENTATION,
-              ids);
-      ids++;
-      game = new Game(player);
-    }
+    /*
+     * if we want real multiplayer, we can add it in again later, but for now I'm taking a simplified approach: see
+     * below comment
+     */
+    game = new Game();
 
     //  This is hardcoded as 1 for convenience. If we're still pretending that we'll one day
     //  support multiplayer really this whole controller needs to be thoroughly refactored, but

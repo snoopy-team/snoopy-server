@@ -1,5 +1,6 @@
 package com.server.Models.GameModel;
 
+import com.server.Configuration.Constants;
 import com.server.Models.GameModel.JSON.BulletJSON;
 import com.server.Models.GameModel.JSON.GameStateJSON;
 import com.server.Models.GameModel.JSON.PlayerJSON;
@@ -40,6 +41,33 @@ public class GameState {
         this.config = config;
         this.physics = physics;
         this.match = match;
+        this.isOver = false;
+        this.winningPlayer = null;
+        this.losingPlayer = null;
+    }
+
+    /**
+     * Initializes using built-in constants for the game config values and player start positions, no bullets, and no
+     * elapsed game time.
+     */
+    public GameState() {
+        Player baron = new Player(Constants.AI_STARTING_POSITION, Constants.AI_STARTING_ORIENTATION,
+                Constants.AI_INDEX);
+        Player snoopy = new Player(Constants.STARTING_POSITION, Constants.STARTING_ORIENTATION,
+                Constants.AI_INDEX + 1);
+        this.players = List.of(baron, snoopy);
+
+        this.playerBullets = new HashMap<>();
+        for (Player player : this.players) {
+            this.playerBullets.put(player.id, new ArrayList<>());
+        }
+
+        this.t = 0;
+        this.config = new GameConfig(Constants.TURN_SPEED, Constants.BULLET_RADIUS, Constants.BULLET_SPEED,
+                Constants.PLAYER_RADIUS, Constants.BULLET_COOLDOWN, Constants.NUM_BULLETS, Constants.BULLET_SPREAD);
+
+        this.physics = new PhysicsModel(Constants.THRUST_POWER, Constants.GRAVITY_STRENGTH, Constants.DRAG_FACTOR);
+        this.match = new MatchSetup(Constants.WIDTH, Constants.HEIGHT);
         this.isOver = false;
         this.winningPlayer = null;
         this.losingPlayer = null;
