@@ -52,14 +52,13 @@ public class SimulationController {
     }
 
     /**
-     * Constructor that initializes sensible defaults for game state (the default one), dt (1 / 16), and numSteps (2,
-     * to keep an internal 32 FPS that is like 30 FPS but without any rounding errors).
+     * Constructor that initializes sensible defaults for game state and frame rate.
      * @param agents the AI agents to use
      */
     public SimulationController(List<IBaron> agents) {
         this.agents = agents;
-        this.gameState = new GameState();
-        this.dt = 1 / 16.0;
+        this.gameState = GameState.randomState();
+        this.dt = 1 / 32.0;
         this.numSubsteps = 2;
     }
 
@@ -114,7 +113,7 @@ public class SimulationController {
         if (!this.gameState.isOver()) {
             return 0;
         } else {
-            return this.gameState.getWinningPlayer() == 0 ? 1 : -1;
+            return (this.gameState.getWinningPlayer() == 0) ? 1 : -1;
         }
     }
 

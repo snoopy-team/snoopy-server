@@ -39,10 +39,10 @@ class Game:
     def to_df(self):
         """Outputs a Pandas DF with one row for each time"""
         rows = []
-        for act, state in zip(self.actions, self.states):
+        for i, (act, state) in enumerate(zip(self.actions, self.states)):
             rows.append({
                 't': state['t'],
-                't_int': round(state['t'] * 16),
+                't_int': i + 1,
                 'x1': state['players']['0']['position'][0],
                 'y1': state['players']['0']['position'][1],
                 'vx1': state['players']['0']['velocity'][0],
@@ -68,7 +68,7 @@ class Game:
 
 width = 50 * 20
 height = 50 * 20
-player_r = 15
+player_r = 50
 wedge_size = np.pi / 4
 c = ['#4287f5', '#ffa30f']
 
@@ -104,9 +104,9 @@ df = g.to_df()
 names = ['Player 1', 'Player 2']
 
 
-def parse_bullets(bullets):
+def parse_bullets(bulletlist):
     rows = []
-    for p_bullets, name in zip(bullets, names):
+    for p_bullets, name in zip(bulletlist, names):
         for bullet in p_bullets:
             rows.append({
                 'x': bullet['position'][0],
@@ -128,7 +128,7 @@ def app(doc):
                       tools="crosshair,save", x_range=[0, width], y_range=[0, height])
 
         players = df.loc[[t], :]
-        bullets = parse_bullets(df.loc[t, 'bullets'])
+        bullets = parse_bullets(df['bullets'][t])
         plot.wedge('x1', 'y1', start_angle='a1_0', end_angle='a1_1',
                    color=c[0], radius=player_r, legend_label='Player 1', source=players)
         plot.wedge('x2', 'y2', start_angle='a2_0', end_angle='a2_1',

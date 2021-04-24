@@ -5,10 +5,7 @@ import com.server.Models.GameModel.JSON.BulletJSON;
 import com.server.Models.GameModel.JSON.GameStateJSON;
 import com.server.Models.GameModel.JSON.PlayerJSON;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -75,6 +72,36 @@ public class GameState {
     }
 
     /**
+     * Puts the players randomly in the middle 2/3 of the field in both x and y axis such that the two players don't
+     * initially intersect and with random orientations.
+     */
+    public static GameState randomState() {
+        Random rng = new Random();
+        boolean isValid = false;
+        GamePosn pos1 = null, pos2 = null;
+        while (!isValid) {
+            pos1 = new GamePosn(
+                    (rng.nextDouble() * 2 / 3 + 1 / 3.0) * Constants.WIDTH,
+                    (rng.nextDouble() * 2 / 3 + 1 / 3.0) * Constants.HEIGHT);
+            pos2 = new GamePosn(
+                    (rng.nextDouble() * 2 / 3 + 1 / 3.0) * Constants.WIDTH,
+                    (rng.nextDouble() * 2 / 3 + 1 / 3.0) * Constants.HEIGHT);
+
+            isValid = (pos1.distance(pos2) > 2 * Constants.PLAYER_RADIUS);
+        }
+
+        double angle1 = rng.nextDouble() * Math.PI * 2;
+        double angle2 = rng.nextDouble() * Math.PI * 2;
+        List<Player> players = List.of(
+                new Player(pos1, angle1, Constants.AI_INDEX),
+                new Player(pos2, angle2, Constants.AI_INDEX + 1)
+        );
+        GameState gs = new GameState();
+        gs.players = players;
+        return gs;
+    }
+
+    /**
      * Copy constructor.
      * @param other the other game state
      */
@@ -131,6 +158,10 @@ public class GameState {
 
             this.players.get(playerId).takeActions(actionList, this, dt);
             this.players.get(playerId).handleBoundaries(this.match.getWidth(), this.match.getHeight());
+            // bottom killplane check
+            if (this.players.get(playerId).getPosn().getY() < 0) {
+                this.losePlayer(playerId);
+            }
         }
 
         this.moveBullets(dt);
@@ -203,9 +234,9 @@ public class GameState {
                             .map(Bullet::getBody)
                             .collect(Collectors.toList()));
                 }
-                if (bullets.hasCollision(this.players.get(playerInd).getBody(this.getConfig()))) {
-                    this.losePlayer(oppInd, playerInd);
-                }
+            }
+            if (bullets.hasCollision(this.players.get(playerInd).getBody(this.getConfig()))) {
+                this.losePlayer(playerInd);
             }
         }
     }
@@ -218,8 +249,8 @@ public class GameState {
         return winningPlayer;
     }
 
-    private void losePlayer(int winningPlayer, int losingPlayer) {
-        this.winningPlayer = winningPlayer;
+    private void losePlayer(int losingPlayer) {
+        this.winningPlayer = 1 - losingPlayer;
         this.losingPlayer = losingPlayer;
         this.isOver = true;
     }

@@ -16,14 +16,11 @@ public class GameSimulator {
         Evaluator basicEval = new LinearEvaluator(
                 List.of(new NearestBulletFeature(), new PositionScoreFeature()),
                 List.of(1.0, 20.0));
-        Evaluator evenMoreBasicEval = new LinearEvaluator(
-                List.of(new PositionScoreFeature()),
-                List.of(1.0));
-        IBaron agent1 = new SimpleSearchBaron(basicEval, 1);
-        IBaron agent2 = new SimpleSearchBaron(evenMoreBasicEval, 1);
+        IBaron agent1 = new SimpleSearchBaron(basicEval, 3);
+        IBaron agent2 = new SimpleSearchBaron(basicEval, 3);
 
         int N_GAMES = 10;
-        double MAX_TIME = 50;
+        double MAX_TIME = 500;
 
         try {
             for (int i = 1; i <= N_GAMES; i++) {

@@ -89,7 +89,10 @@ public class SimpleSearchBaron implements IBaron {
     }
 
     private double getBestValue(GameState state, int id, int maxDepth) {
-        if (maxDepth == 0) {
+        if (state.isOver()) {
+            int WIN_VAL = 1000;
+            return (state.getWinningPlayer() == id) ? WIN_VAL : -WIN_VAL;
+        } else if (maxDepth == 0) {
             // reached end of tree
             return this.valueFunc.evaluate(state, id);
         } else {
