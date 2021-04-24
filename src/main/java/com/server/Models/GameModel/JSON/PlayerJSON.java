@@ -29,10 +29,10 @@ public class PlayerJSON {
   }
 
   public double getOrientation() {
-    return orientation;
+    return Rounder.round(orientation);
   }
 
   public double getCooldown() {
-    return cooldown;
+    return Rounder.round(cooldown, 5);
   }
 }

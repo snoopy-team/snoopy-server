@@ -52,4 +52,6 @@ public class Constants {
   public final static String THRUST = "arrowup";
   public final static String FIRE = " ";
 
+  // Number of decimal places (in binary) to store (e.g., 3 for rounding to the nearest eighth)
+  public final static int NUM_DECIMAL_PLACES = 3;
 }

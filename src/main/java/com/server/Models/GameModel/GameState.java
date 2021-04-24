@@ -68,6 +68,7 @@ public class GameState {
 
         this.physics = new PhysicsModel(Constants.THRUST_POWER, Constants.GRAVITY_STRENGTH, Constants.DRAG_FACTOR);
         this.match = new MatchSetup(Constants.WIDTH, Constants.HEIGHT);
+        // TODO refactor to use sum type
         this.isOver = false;
         this.winningPlayer = null;
         this.losingPlayer = null;
@@ -209,9 +210,18 @@ public class GameState {
         }
     }
 
+    public double getT() {
+        return t;
+    }
+
+    public Integer getWinningPlayer() {
+        return winningPlayer;
+    }
+
     private void losePlayer(int winningPlayer, int losingPlayer) {
         this.winningPlayer = winningPlayer;
         this.losingPlayer = losingPlayer;
+        this.isOver = true;
     }
 
     private void endGame()

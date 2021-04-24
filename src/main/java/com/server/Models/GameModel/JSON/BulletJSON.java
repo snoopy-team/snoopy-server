@@ -16,5 +16,4 @@ public class BulletJSON {
   public double[] getVelocity() {
     return velocity;
   }
-
 }

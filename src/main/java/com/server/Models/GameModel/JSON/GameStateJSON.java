@@ -10,6 +10,7 @@ public class GameStateJSON {
   private final Integer winner;
   private final boolean isOver;
 
+  // TODO rename it so that this doesn't say JSON because it isn't
   public GameStateJSON(String status, double t, Map<Integer, PlayerJSON> players, Map<Integer,
           BulletJSON[]> bullets, Integer winner, boolean isOver) {
     this.status = status;
@@ -25,7 +26,8 @@ public class GameStateJSON {
   }
 
   public double getT() {
-    return t;
+    // 7 -> round to nearest 128th for more precision than other doubles
+    return Rounder.round(t, 7);
   }
 
   public Map<Integer, PlayerJSON> getPlayers() {

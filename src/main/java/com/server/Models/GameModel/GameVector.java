@@ -1,5 +1,7 @@
 package com.server.Models.GameModel;
 
+import com.server.Models.GameModel.JSON.Rounder;
+
 /**
  * A class to represent vectors such as velocity and acceleration. Contains two signed real numbers in Cartesian
  * coordinates that match the game physics.
@@ -81,6 +83,8 @@ public class GameVector {
      * @return the JSON output
      */
     public double[] toJson() {
-        return new double[]{this.x, this.y};
+        return new double[]{
+                Rounder.round(x),
+                Rounder.round(y)};
     }
 }

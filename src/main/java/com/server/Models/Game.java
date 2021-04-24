@@ -36,7 +36,6 @@ public class Game {
     actionList.put(playerId, actions);
     actionList.put(Constants.AI_INDEX, this.snoopy.getActions(this.gameState, Constants.AI_INDEX));
 
-    // Add the AI actions here too
     this.gameState.stepMany(actionList, 1 / 30.0, 3);
 
     return this.gameState.toJson();
