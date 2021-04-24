@@ -194,7 +194,7 @@ public class GameState {
         for (int playerInd = 0; playerInd < this.players.size(); playerInd++) {
             // this is where tuning for performance should happen
             Bullets bullets = new GridBullets(
-                    20, 20,
+                    3, 3,
                     this.match.getWidth(), this.match.getHeight());
             for (int oppInd = 0; oppInd < this.players.size(); oppInd++) {
                 if (oppInd != playerInd) {
