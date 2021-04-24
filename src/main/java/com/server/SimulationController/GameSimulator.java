@@ -2,6 +2,7 @@ package com.server.SimulationController;
 
 import com.server.Models.Barons.*;
 import com.server.Models.Barons.Features.NearestBulletFeature;
+import com.server.Models.Barons.Features.OrientationFeature;
 import com.server.Models.Barons.Features.PositionScoreFeature;
 
 import java.io.FileWriter;
@@ -16,8 +17,11 @@ public class GameSimulator {
         Evaluator basicEval = new LinearEvaluator(
                 List.of(new NearestBulletFeature(), new PositionScoreFeature()),
                 List.of(1.0, 20.0));
+        Evaluator basicEval2 = new LinearEvaluator(
+                List.of(new NearestBulletFeature(), new PositionScoreFeature(), new OrientationFeature()),
+                List.of(3.0, 20.0, 10.0));
         IBaron agent1 = new SimpleSearchBaron(basicEval, 3);
-        IBaron agent2 = new SimpleSearchBaron(basicEval, 3);
+        IBaron agent2 = new SimpleSearchBaron(basicEval2, 3);
 
         int N_GAMES = 10;
         double MAX_TIME = 500;

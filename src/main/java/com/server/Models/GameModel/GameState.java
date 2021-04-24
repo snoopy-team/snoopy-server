@@ -81,11 +81,11 @@ public class GameState {
         GamePosn pos1 = null, pos2 = null;
         while (!isValid) {
             pos1 = new GamePosn(
-                    (rng.nextDouble() * 2 / 3 + 1 / 3.0) * Constants.WIDTH,
-                    (rng.nextDouble() * 2 / 3 + 1 / 3.0) * Constants.HEIGHT);
+                    (rng.nextDouble() * 2 / 3 + 1 / 6.0) * Constants.WIDTH,
+                    (rng.nextDouble() * 2 / 3 + 1 / 6.0) * Constants.HEIGHT);
             pos2 = new GamePosn(
-                    (rng.nextDouble() * 2 / 3 + 1 / 3.0) * Constants.WIDTH,
-                    (rng.nextDouble() * 2 / 3 + 1 / 3.0) * Constants.HEIGHT);
+                    (rng.nextDouble() * 2 / 3 + 1 / 6.0) * Constants.WIDTH,
+                    (rng.nextDouble() * 2 / 3 + 1 / 6.0) * Constants.HEIGHT);
 
             isValid = (pos1.distance(pos2) > 2 * Constants.PLAYER_RADIUS);
         }

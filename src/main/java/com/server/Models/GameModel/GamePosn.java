@@ -53,6 +53,20 @@ public class GamePosn {
         return Math.hypot(this.x - other.x, this.y - other.y);
     }
 
+    public GamePosn scale(double c) {
+        return new GamePosn(this.x * c, this.y * c);
+    }
+
+    public GamePosn addPosn(GamePosn other) {
+        return new GamePosn(
+                this.x + other.getX(),
+                this.y + other.getY());
+    }
+
+    public double atan() {
+        return Math.atan2(this.y, this.x);
+    }
+
     public double[] toJson() {
         return new double[]{
                 Rounder.round(x),
