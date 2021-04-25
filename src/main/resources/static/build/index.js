@@ -17,8 +17,8 @@ export var constants = {
     SERVER_SOCKET_URL: 'ws://127.0.0.1:8080/gs-guide-websocket',
     AI_IDX: 0,
     PLAYER_IDX: 1,
-    SNOOPY_SIZE: { x: 30, y: 50 },
-    BARRON_SIZE: { x: 30, y: 20 },
+    SNOOPY_SIZE: { x: 60, y: 100 },
+    BARRON_SIZE: { x: 150, y: 100 },
     TOP_LEFT_WORLD_BOUND: { x: -30, y: 0 },
     BOTTOM_RIGHT_WORLD_BOUND: { x: 1000, y: 1000 },
 };
