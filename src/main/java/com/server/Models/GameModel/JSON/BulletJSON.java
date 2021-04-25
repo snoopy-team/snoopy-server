@@ -1,8 +1,8 @@
 package com.server.Models.GameModel.JSON;
 
 public class BulletJSON {
-  double[] position;
-  double[] velocity;
+  final double[] position;
+  final double[] velocity;
 
   public BulletJSON(double[] position, double[] velocity) {
     this.position = position;
@@ -16,5 +16,4 @@ public class BulletJSON {
   public double[] getVelocity() {
     return velocity;
   }
-
 }

@@ -1,11 +1,5 @@
 package com.server.Models.GameModel;
 
-import com.google.gson.JsonObject;
-
-import com.server.Models.GameModel.GamePosn;
-import com.server.Models.GameModel.GameVector;
-import com.server.Models.GameModel.Player;
-
 import org.junit.jupiter.api.Test;
 
 class PlayerTest {

@@ -18,7 +18,7 @@ public class Player {
     /**
      * The acceleration of the player not due to gravity.
      */
-    GameVector accel;
+    final GameVector accel;
 
     /**
      * The orientation of the player, in radians. This is the direction the thrust moves the player, so 0 means the
@@ -44,7 +44,7 @@ public class Player {
     /**
      * The ID number of the player, which should be unique within a single game.
      */
-    int id;
+    final int id;
 
     /**
      * Creates a player at the given position and orientation with zero velocity and acceleration, thrusters off, and
@@ -73,7 +73,7 @@ public class Player {
     }
 
     public ABody getBody(GameConfig config) {
-        return new Rect(this.posn, config.getPlayerRadius(), config.getPlayerRadius());
+        return new Circle(this.posn, config.getPlayerRadius());
     }
 
     /**
@@ -259,10 +259,6 @@ public class Player {
      */
     public boolean isDead()
     {
-        if (this.posn.y < 0)
-        {
-            return true;
-        }
-        return false;
+        return this.posn.y < 0;
     }
 }

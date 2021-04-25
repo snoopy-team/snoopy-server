@@ -21,11 +21,11 @@ public class Constants {
   public final static double THRUST_POWER = DRAG_FACTOR * THRUST_MAX_SPEED * THRUST_MAX_SPEED;
 
   public final static double TURN_SPEED = 4.0;
-  public final static double BULLET_RADIUS = 5;
+  public final static double BULLET_RADIUS = 10;
   // factor of 50 is to make scale comparable with thrust max speed
   public final static double BULLET_SPEED = 50 * 30.0;
-  public final static double PLAYER_RADIUS = 15;
-  public final static double BULLET_COOLDOWN = 1;
+  public final static double PLAYER_RADIUS = 50.0;
+  public final static double BULLET_COOLDOWN = 1 / 2.0;
 
   // number of bullets fired at once, in a "shotgun" spread pattern
   // should be odd if you want it to be symmetric
@@ -52,4 +52,6 @@ public class Constants {
   public final static String THRUST = "arrowup";
   public final static String FIRE = " ";
 
+  // Number of decimal places (in binary) to store (e.g., 3 for rounding to the nearest eighth)
+  public final static int NUM_DECIMAL_PLACES = 3;
 }

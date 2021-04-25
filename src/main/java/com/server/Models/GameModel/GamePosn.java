@@ -1,5 +1,7 @@
 package com.server.Models.GameModel;
 
+import com.server.Models.GameModel.JSON.Rounder;
+
 /**
  * A class to represent coordinates in the game world. The game coordinate system is Cartesian, so the lower-left corner
  * is the origin.
@@ -8,12 +10,12 @@ public class GamePosn {
     /**
      * The x-coordinate.
      */
-    double x;
+    final double x;
 
     /**
      * The y-coordinate.
      */
-    double y;
+    final double y;
 
     /**
      * Constructor:
@@ -51,7 +53,23 @@ public class GamePosn {
         return Math.hypot(this.x - other.x, this.y - other.y);
     }
 
+    public GamePosn scale(double c) {
+        return new GamePosn(this.x * c, this.y * c);
+    }
+
+    public GamePosn addPosn(GamePosn other) {
+        return new GamePosn(
+                this.x + other.getX(),
+                this.y + other.getY());
+    }
+
+    public double atan() {
+        return Math.atan2(this.y, this.x);
+    }
+
     public double[] toJson() {
-        return new double[]{this.x, this.y};
+        return new double[]{
+                Rounder.round(x),
+                Rounder.round(y)};
     }
 }
