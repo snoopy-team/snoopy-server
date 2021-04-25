@@ -34,10 +34,11 @@ public class Constants {
   public final static double BULLET_SPREAD = Math.PI / 8;
 
 
-  public final static int WIDTH = 50 * 20;
-  public final static int HEIGHT = 50 * 20;
+  public final static int WIDTH = 50 * 200;
+  public final static int HEIGHT = 50 * 200;
 
-  public final static GamePosn STARTING_POSITION = new GamePosn(WIDTH / 3.0, HEIGHT / 3.0); // Potentially we wanna
+  public final static GamePosn STARTING_POSITION = new GamePosn(WIDTH / 2.0, HEIGHT / 2.0); //
+  // Potentially we wanna
   public final static double STARTING_ORIENTATION = 0;
 
   public final static GamePosn AI_STARTING_POSITION = new GamePosn(2 / 3.0 * WIDTH, 2 / 3.0 * HEIGHT); //
