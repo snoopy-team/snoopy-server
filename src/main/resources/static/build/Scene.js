@@ -14,7 +14,7 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 import { canvas, ctx } from './index.js';
-import { addVectors, multiplyVectors, origin, subractVectors } from './VectorMath.js';
+import { addVectors, multiplyVectors, subractVectors } from './VectorMath.js';
 /**
  * Represents a Camera through which the player sees the world. A Camera will control where objects
  * are rendered on the screen or if they should be rendered at all. For instance, an object that is
@@ -47,6 +47,7 @@ var Camera = /** @class */ (function () {
          */
         this.centerOn = function (positionToCenter) {
             _this.destinationPosition = positionToCenter;
+            _this.subjects.push(positionToCenter);
         };
         /**
          * Shakes the camera. Used for effects like getting hit with a bullet.
@@ -78,9 +79,12 @@ var Camera = /** @class */ (function () {
         this.renderAll = function () {
             // Draw background
             var worldBounds = _this.computeWorldBounds();
-            var gridSquareSize = 100;
-            var gridSquareVec = { x: _this.scale * gridSquareSize, y: _this.scale * gridSquareSize };
-            _this.background.draw(ctx, worldBounds.topLeft, worldBounds.bottomRight, gridSquareVec);
+            _this.background.draw(ctx, worldBounds.topLeft, worldBounds.bottomRight, _this.scale, function (coord) {
+                return {
+                    x: canvas.width / 2 + _this.scale * (coord.x - _this.augmentedPosition.x),
+                    y: canvas.height / 2 + _this.scale * (coord.y - _this.augmentedPosition.y),
+                };
+            });
             // Draw all objects
             var scene = _this.scene();
             for (var _i = 0, scene_1 = scene; _i < scene_1.length; _i++) {
@@ -125,8 +129,24 @@ var Camera = /** @class */ (function () {
         this.axesRadii = { x: this.scale * (canvas.width / 2), y: this.scale * (canvas.height / 2) };
         this.shakeTimeElapsed = 0;
         this.isShaking = false;
+        this.subjects = [positionToCenter];
+        this.subjectID = 0;
     }
     ;
+    // TODO
+    Camera.prototype.centerOnBounds = function (topLeft, bottomRight) {
+        // Calculate center of the given bounds
+        var centerOfBounds = multiplyVectors(addVectors(topLeft, bottomRight), { x: .5, y: .5 });
+        this.destinationPosition = function () { return centerOfBounds; };
+        // Recalculate scale so that the bounds
+    };
+    /**
+     * Cycles what this camera is focused on by cycling through this.subjects
+     */
+    Camera.prototype.cycleFollow = function () {
+        this.subjectID += 1;
+        this.destinationPosition = this.subjects[this.subjectID];
+    };
     /**
      * Smoothly interpolate toward destination until camera is FOLLOW_DISTANCE from destination, then
      * clamp to FOLLOW_DISTANCE away from destination.
@@ -175,19 +195,19 @@ export { Camera };
  */
 var DebugCamera = /** @class */ (function (_super) {
     __extends(DebugCamera, _super);
-    function DebugCamera(scene, background, scale) {
+    function DebugCamera(centerOn, scene, background, scale) {
         if (scale === void 0) { scale = 1; }
-        var _this = _super.call(this, function () { return origin; }, scene, background, scale) || this;
+        var _this = _super.call(this, centerOn, scene, background, scale) || this;
         _this.update = function (deltaTime) {
             // Show and allow debug features if debug mode is on. Otherwise, act like a normal Camera.
             if (_this.debugOn) {
                 var vel = 50;
                 // Update position from keyboard inputs
                 if (_this.keysDown.includes('ArrowUp')) {
-                    _this.augmentedPosition = addVectors({ x: 0, y: -vel }, _this.augmentedPosition);
+                    _this.augmentedPosition = addVectors({ x: 0, y: vel }, _this.augmentedPosition);
                 }
                 else if (_this.keysDown.includes('ArrowDown')) {
-                    _this.augmentedPosition = addVectors({ x: 0, y: vel }, _this.augmentedPosition);
+                    _this.augmentedPosition = addVectors({ x: 0, y: -vel }, _this.augmentedPosition);
                 }
                 if (_this.keysDown.includes('ArrowRight')) {
                     _this.augmentedPosition = addVectors({ x: vel, y: 0 }, _this.augmentedPosition);
@@ -212,27 +232,6 @@ var DebugCamera = /** @class */ (function (_super) {
         _this.debugLines.push(function () { return "Camera Mode: " + (_this.debugOn ? 'Debug Camera' : 'Player Camera'); });
         _this.debugLines.push(function () { return "Spacebar to toggle camera mode"; });
         _this.debugLines.push(function () { return "Scroll to zoom, arrow keys to pan camera in debug mode"; });
-        document.addEventListener('keydown', function (e) {
-            _this.keysDown.push(e.key);
-            // Toggle Camera type on space
-            if (e.key == ' ') {
-                _this.toggleDebugFeatures();
-            }
-            // Simulate shaek
-            if (e.key == 's') {
-                _this.shake(0);
-            }
-        });
-        document.addEventListener('keyup', function (e) {
-            _this.keysDown = _this.keysDown.filter(function (key) { return key != e.key; });
-        });
-        // On scroll, update zoom
-        document.addEventListener('wheel', function (e) {
-            e.preventDefault();
-            _this.scale += e.deltaY * -0.01;
-            // Restrict scale from [.125, 3]
-            _this.scale = Math.min(Math.max(.125, _this.scale), 3);
-        }, { passive: false });
         return _this;
     }
     /**
@@ -255,6 +254,32 @@ var DebugCamera = /** @class */ (function (_super) {
             currLineYPos += 30;
         }
         ctx.transform(1, 0, 0, -1, 0, canvas.height);
+    };
+    DebugCamera.prototype.getKeyboardLayout = function () {
+        var _this = this;
+        var onKeydown = function (e) {
+            _this.keysDown.push(e.key);
+            // Cycle which subject to follow 
+            if (e.key == 'c') {
+                _this.cycleFollow();
+            }
+            // Simulate shaek
+            if (e.key == 's') {
+                _this.shake(0);
+            }
+        };
+        var onKeyup = function (e) {
+            _this.keysDown = _this.keysDown.filter(function (key) { return key != e.key; });
+        };
+        // On scroll, update zoom
+        var onScroll = function (e) {
+            e.preventDefault();
+            _this.scale += e.deltaY * -0.01;
+            // Restrict scale from [.125, 3]
+            _this.scale = Math.min(Math.max(.125, _this.scale), 3);
+        };
+        var layout = { onKeydown: onKeydown, onKeyup: onKeyup, onScroll: onScroll };
+        return layout;
     };
     return DebugCamera;
 }(Camera));

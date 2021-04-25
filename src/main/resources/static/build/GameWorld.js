@@ -1,9 +1,10 @@
-import { canvas, ctx, constants, imageSnoopy } from './index.js';
+import { canvas, ctx, constants, imageSnoopy, ioManager, imageBarron } from './index.js';
 import { Agent } from './Agents.js';
 import { Bullet } from './Bullet.js';
 import { Camera, DebugCamera } from './Scene.js';
-import { GridBackground } from './GridBackground.js';
+import { WorldBorderWithGrid } from './GridBackground.js';
 import { origin } from './VectorMath.js';
+import { doNothingKeyboardLayout } from './KeyboardManager.js';
 /**
  * Holds the main game loop for this dogfighting game. Holds the state and behavior necessary to
  * continuously run a game.
@@ -42,18 +43,27 @@ var GameWorld = /** @class */ (function () {
                         // Check if player is new
                         var playerIsNew = !_this.players.hasOwnProperty(playerID);
                         if (playerIsNew) {
-                            var agent_1 = new Agent(serverUpdate.players[playerID], function (pos, size) {
-                                // TODO: figure out how to determine which player to draw (Snoopy vs Red Barron)
-                                ctx.drawImage(imageSnoopy, pos.x, pos.y, size.x, size.y);
-                            }, { x: 100, y: 150 } // Will need to change this for drawing Red Barron sprite
-                            );
-                            _this.players[playerID] = agent_1;
-                            _this.camera.centerOn(agent_1.getPosition);
-                            if (constants.DEBUG_MODE) {
-                                ctx.font = "15px Arial";
-                                _this.camera.addToDebugMenu(function () { return "Player ID: \"" + playerID + "\", Position: (" + Math.round(agent_1.getPosition().x) + ", " + Math.round(agent_1.getPosition().y) + ")"; });
-                                _this.camera.addToDebugMenu(function () { return "Press \"s\" to simulate camera shake."; }); // TODO move this
+                            var agent = new Agent(serverUpdate.players[playerID], function (pos, size) {
+                                ctx.drawImage(
+                                // @ts-ignore
+                                playerID == constants.PLAYER_IDX ? imageSnoopy : imageBarron, pos.x, pos.y, size.x, size.y);
+                            }, 
+                            // @ts-ignore
+                            playerID == constants.PLAYER_IDX ? constants.SNOOPY_SIZE : constants.BARRON_SIZE);
+                            _this.players[playerID] = agent;
+                            var camera = new Camera(agent.getPosition, _this.getScene, new WorldBorderWithGrid(constants.TOP_LEFT_WORLD_BOUND, constants.BOTTOM_RIGHT_WORLD_BOUND));
+                            var keyboardLayout = void 0;
+                            // @ts-ignore because playerID is a number, but TS thinks its a string because it's
+                            // coming from a key on an object.
+                            if (playerID == constants.PLAYER_IDX) {
+                                keyboardLayout = _this.serverOutputKeyboardLayout();
                             }
+                            else {
+                                keyboardLayout = doNothingKeyboardLayout;
+                            }
+                            ioManager.addIOPair(camera, keyboardLayout);
+                            // @ts-ignore
+                            ioManager.cycle();
                         }
                         _this.players[playerID].getServerUpdate(serverUpdate.players[playerID]);
                     };
@@ -93,13 +103,9 @@ var GameWorld = /** @class */ (function () {
                         bullet.update(_this.millisPassedSinceLastFrame / 1000);
                     }
                 }
-                // Draw all game objects
-                _this.camera.update(_this.millisPassedSinceLastFrame / 1000);
-                _this.camera.renderAll();
-                // Add debug info to the top left
-                if (constants.DEBUG_MODE) {
-                    _this.camera.displayDebugMenu();
-                }
+                // Update the io manager so it can update the outputs
+                ioManager.update(_this.millisPassedSinceLastFrame / 1000);
+                ioManager.renderOutput();
                 _this.millisPassedSinceLastFrame = 0;
             }
             _this.before = now;
@@ -128,10 +134,25 @@ var GameWorld = /** @class */ (function () {
         this.before = Date.now();
         this.millisPassedSinceLastFrame = 0;
         this.scene = [];
-        this.camera = constants.DEBUG_MODE
-            ? new DebugCamera(this.getScene, new GridBackground())
-            : new Camera(function () { return origin; }, this.getScene, new GridBackground());
+        var debugCamera = new DebugCamera(function () { return origin; }, this.getScene, new WorldBorderWithGrid(constants.TOP_LEFT_WORLD_BOUND, constants.BOTTOM_RIGHT_WORLD_BOUND));
+        // Add a debug view to our game
+        ioManager.addIOPair(debugCamera, debugCamera.getKeyboardLayout());
     }
+    // TODO
+    GameWorld.prototype.serverOutputKeyboardLayout = function () {
+        var _this = this;
+        // Set up keyboard controls
+        var onKeydown = function (e) {
+            _this.serverUpdateManager.sendMessage(JSON.stringify({ actions: ioManager.getKeysDown() }));
+        };
+        var onKeyup = function (e) {
+            _this.serverUpdateManager.sendMessage(JSON.stringify({ actions: ioManager.getKeysDown() }));
+        };
+        var onScroll = function () { };
+        var keyboardConfig = { onKeydown: onKeydown, onKeyup: onKeyup, onScroll: onScroll };
+        // Keep track of which keys are down at any point in time
+        return keyboardConfig;
+    };
     return GameWorld;
 }());
 export { GameWorld };
