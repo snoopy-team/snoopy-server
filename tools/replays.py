@@ -68,7 +68,7 @@ class Game:
 
 width = 50 * 20
 height = 50 * 20
-player_r = 50
+player_r = 30
 wedge_size = np.pi / 4
 c = ['#4287f5', '#ffa30f']
 
@@ -168,7 +168,7 @@ def app(doc):
             button.label = '► Play'
             playing = False
 
-    doc.add_periodic_callback(animate_update, 200)
+    doc.add_periodic_callback(animate_update, 33)
 
     button = Button(label='► Play', width=40)
     button.on_click(animate)
