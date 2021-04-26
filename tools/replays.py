@@ -69,6 +69,7 @@ class Game:
 width = 50 * 20
 height = 50 * 20
 player_r = 30
+bullet_r = 5
 wedge_size = np.pi / 4
 c = ['#4287f5', '#ffa30f']
 
@@ -135,7 +136,7 @@ def app(doc):
                    color=c[1], radius=player_r, legend_label='Player 2', source=players)
         if not bullets.empty:
             plot.circle('x', 'y', color={
-                        'field': 'player', 'transform': player_map}, source=bullets)
+                        'field': 'player', 'transform': player_map}, radius=bullet_r, source=bullets)
         return plot
 
     # Set up widgets
