@@ -227,6 +227,7 @@ public class GameState {
             Bullets bullets = new GridBullets(
                     3, 3,
                     this.match.getWidth(), this.match.getHeight());
+//            Bullets bullets = new NaiveBullets();
             for (int oppInd = 0; oppInd < this.players.size(); oppInd++) {
                 if (oppInd != playerInd) {
                     bullets.addAll(this.playerBullets.get(oppInd)

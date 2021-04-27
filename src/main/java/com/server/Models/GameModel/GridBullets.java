@@ -180,7 +180,7 @@ public class GridBullets implements Bullets {
     public boolean addAll(Collection<? extends ABody> collection) {
         boolean hasChanged = false;
         for (ABody bullet : collection) {
-            hasChanged = hasChanged || this.add(bullet);
+            hasChanged = this.add(bullet) || hasChanged;
         }
         return hasChanged;
     }
