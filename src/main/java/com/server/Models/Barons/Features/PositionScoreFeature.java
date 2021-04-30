@@ -24,7 +24,7 @@ public class PositionScoreFeature implements Feature<Double> {
 
         // ideal y-value is high, with sharp drop-off near bottom, and ends at 2/3s the max height
         // worst possible value is log 0.01 = -4.6
-        double yComp = Math.log(2 / 3.0 - Math.abs(posnScaled.getY() - 2 / 3.0) + 0.01);
+        double yComp = Math.log(2 / 3.0 - Math.abs(posnScaled.getY() - 2 / 3.0) + 0.001);
 
         return xComp + yComp;
     }

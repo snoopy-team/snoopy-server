@@ -98,8 +98,8 @@ public class GameState {
             isValid = (pos1.distance(pos2) > 2 * Constants.PLAYER_RADIUS);
         }
 
-        double angle1 = Math.PI * 2 - Math.atan2(pos2.getY() - pos1.getY(), pos2.getX() - pos1.getX());
-        double angle2 = Math.PI * 2 - angle1;
+        double angle1 = pos1.addPosn(pos2.scale(-1)).atan();
+        double angle2 = pos2.addPosn(pos1.scale(-1)).atan();
         List<Player> players = List.of(
                 new Player(pos1, angle1, Constants.AI_INDEX),
                 new Player(pos2, angle2, Constants.AI_INDEX + 1)

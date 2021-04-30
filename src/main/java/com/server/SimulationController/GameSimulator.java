@@ -1,12 +1,9 @@
 package com.server.SimulationController;
 
-import com.server.Models.Barons.Evaluator;
+import com.server.Models.Barons.*;
 import com.server.Models.Barons.Features.NearestBulletFeature;
 import com.server.Models.Barons.Features.OrientationFeature;
 import com.server.Models.Barons.Features.PositionScoreFeature;
-import com.server.Models.Barons.IBaron;
-import com.server.Models.Barons.LinearEvaluator;
-import com.server.Models.Barons.SimpleSearchBaron;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -20,12 +17,14 @@ public class GameSimulator {
     public static void main(String[] args) {
         Evaluator basicEval2 = new LinearEvaluator(
                 List.of(new NearestBulletFeature(), new PositionScoreFeature(), new OrientationFeature()),
-                List.of(3.0, 20.0, 10.0));
-        IBaron agent1 = new SimpleSearchBaron(basicEval2, 3);
-        IBaron agent2 = new SimpleSearchBaron(basicEval2, 3);
+                List.of(15.0, 20.0, 10.0));
+        Evaluator newQ = new QEvaluator(-0.4701161 ,  0.27848007,  3.06952571, 2.0);
+        Evaluator qEval = new QEvaluator(-1.16, 0.49, 5.86, 2.0);
+        IBaron agent1 = new SimpleSearchBaron(newQ, 4);
+        IBaron agent2 = new SimpleSearchBaron(newQ, 3);
 
-        // play N_GAMES pairs of games with flipped starting positions
-        int N_GAMES = 20 * 2;
+        // play N_GAMES pairs ofx` games with flipped starting positions
+        int N_GAMES = 50 * 2;
         double MAX_TIME = 50;
 
         try {
