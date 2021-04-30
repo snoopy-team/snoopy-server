@@ -68,7 +68,7 @@ public class SimpleSearchBaron implements IBaron {
             }
         }
         GameState newState = new GameState(state);
-        newState.step(inputs, 1 / 5.0);
+        newState.stepMany(inputs, 1 / 32.0, 2);
         return newState;
     }
 
