@@ -76,7 +76,15 @@ public class GameState {
      * initially intersect and with random orientations.
      */
     public static GameState randomState() {
-        Random rng = new Random();
+        return GameState.randomState(new Random().nextLong());
+    }
+
+    /**
+     * Puts the players randomly in the middle 2/3 of the field in both x and y axis such that the two players don't
+     * initially intersect and with random orientations.
+     */
+    public static GameState randomState(long seed) {
+        Random rng = new Random(seed);
         boolean isValid = false;
         GamePosn pos1 = null, pos2 = null;
         while (!isValid) {
@@ -90,8 +98,8 @@ public class GameState {
             isValid = (pos1.distance(pos2) > 2 * Constants.PLAYER_RADIUS);
         }
 
-        double angle1 = rng.nextDouble() * Math.PI * 2;
-        double angle2 = rng.nextDouble() * Math.PI * 2;
+        double angle1 = pos1.addPosn(pos2.scale(-1)).atan();
+        double angle2 = pos2.addPosn(pos1.scale(-1)).atan();
         List<Player> players = List.of(
                 new Player(pos1, angle1, Constants.AI_INDEX),
                 new Player(pos2, angle2, Constants.AI_INDEX + 1)
@@ -241,6 +249,8 @@ public class GameState {
             }
         }
     }
+
+
 
     public double getT() {
         return t;

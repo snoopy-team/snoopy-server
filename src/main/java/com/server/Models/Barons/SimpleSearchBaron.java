@@ -68,7 +68,7 @@ public class SimpleSearchBaron implements IBaron {
             }
         }
         GameState newState = new GameState(state);
-        newState.stepMany(inputs, 1 / 32.0, 2);
+        newState.stepMany(inputs, 3 / 32.0, 3);
         return newState;
     }
 
@@ -91,7 +91,7 @@ public class SimpleSearchBaron implements IBaron {
     private double getBestValue(GameState state, int id, int maxDepth) {
         if (state.isOver()) {
             int WIN_VAL = 1000;
-            return (state.getWinningPlayer() == id) ? WIN_VAL : -WIN_VAL;
+            return (state.getWinningPlayer() == id) ? WIN_VAL : -3 * WIN_VAL;
         } else if (maxDepth == 0) {
             // reached end of tree
             return this.valueFunc.evaluate(state, id);

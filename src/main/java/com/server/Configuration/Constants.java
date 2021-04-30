@@ -18,7 +18,7 @@ public class Constants {
   public final static double TURN_SPEED = 4.0;
   public final static double BULLET_RADIUS = 5;
   // factor of 50 is to make scale comparable with thrust max speed
-  public final static double BULLET_SPEED = 50 * 10.0;
+  public final static double BULLET_SPEED = 50 * 12.0;
   public final static double PLAYER_RADIUS = 30.0;
   public final static double BULLET_COOLDOWN = 1 / 2.0;
   // number of bullets fired at once, in a "shotgun" spread pattern
