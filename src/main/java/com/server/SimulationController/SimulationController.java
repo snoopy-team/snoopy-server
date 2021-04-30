@@ -63,6 +63,19 @@ public class SimulationController {
     }
 
     /**
+     * Constructor that initializes sensible defaults for game state and frame rate, with a custom random seed to set
+     * the player initial positions.
+     * @param agents the AI agents to use
+     * @param seed the seed to use for the RNG
+     */
+    public SimulationController(List<IBaron> agents, long seed) {
+        this.agents = agents;
+        this.gameState = GameState.randomState(seed);
+        this.dt = 1 / 32.0;
+        this.numSubsteps = 2;
+    }
+
+    /**
      * Writes the actions taken on this frame and the game state after those actions have been processed to separate
      * output streams as JSON: a new line is used for each set of inputs.
      *
@@ -148,13 +161,14 @@ public class SimulationController {
      * @param agent1 the first AI
      * @param agent2 the second AI
      * @param maxTime the maximum game time before the game is cut short
+     * @param seed the seed to use for the RNG
      * @return the result
      * @throws IOException if the buffer can't be written to
      */
-    public static int writeFullGame(Appendable out, IBaron agent1, IBaron agent2, double maxTime) throws IOException {
+    public static int writeFullGame(Appendable out, IBaron agent1, IBaron agent2, double maxTime, long seed) throws IOException {
         var inputs = new StringBuffer();
         var states = new StringBuffer();
-        var controller = new SimulationController(List.of(agent1, agent2));
+        var controller = new SimulationController(List.of(agent1, agent2), seed);
         int result = controller.playOut(inputs, states, maxTime);
 
         out.append(inputs)
@@ -171,10 +185,11 @@ public class SimulationController {
      *            then the result
      * @param agent1 the first AI
      * @param agent2 the second AI
+     * @param seed the seed
      * @return the result
      * @throws IOException if the buffer can't be written to
      */
-    public static int writeFullGame(Appendable out, IBaron agent1, IBaron agent2) throws IOException {
-        return writeFullGame(out, agent1, agent2, Double.POSITIVE_INFINITY);
+    public static int writeFullGame(Appendable out, IBaron agent1, IBaron agent2, long seed) throws IOException {
+        return writeFullGame(out, agent1, agent2, Double.POSITIVE_INFINITY, seed);
     }
 }
