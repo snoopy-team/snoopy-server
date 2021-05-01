@@ -6,7 +6,9 @@ import com.server.Models.Barons.Features.NearestBulletFeature;
 import com.server.Models.Barons.Features.PositionScoreFeature;
 import com.server.Models.Barons.IBaron;
 import com.server.Models.Barons.LinearEvaluator;
+import com.server.Models.Barons.QEvaluator;
 import com.server.Models.Barons.SimpleSearchBaron;
+import com.server.Models.Barons.StallBaron;
 import com.server.Models.GameModel.Action;
 import com.server.Models.GameModel.GameState;
 import com.server.Models.GameModel.JSON.GameStateJSON;
@@ -23,10 +25,8 @@ public class Game {
   private final IBaron snoopy;
 
   public Game() {
-    Evaluator basicEval = new LinearEvaluator(
-            List.of(new NearestBulletFeature(), new PositionScoreFeature()),
-            List.of(20.0, 1.0));
-    this.snoopy = new SimpleSearchBaron(basicEval, 3);
+    Evaluator newQ = new QEvaluator(-0.4701161 ,  0.27848007,  3.06952571, 2.0);
+    this.snoopy = new SimpleSearchBaron(newQ, 2);
     // this.snoopy = new StallBaron();
 
     this.gameState = new GameState();
