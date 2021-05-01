@@ -95,7 +95,7 @@ public class GameState {
                     (rng.nextDouble() * 2 / 3 + 1 / 6.0) * Constants.WIDTH,
                     (rng.nextDouble() * 2 / 3 + 1 / 6.0) * Constants.HEIGHT);
 
-            isValid = (pos1.distance(pos2) > 2 * Constants.PLAYER_RADIUS);
+            isValid = (pos1.distance(pos2) > 5 * Constants.PLAYER_RADIUS);
         }
 
         double angle1 = pos1.addPosn(pos2.scale(-1)).atan();
